@@ -8,3 +8,7 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# NOTE: The persistent bot worker (scripts/discord-bot.mjs) should be run via a 
+# long-running process manager (like PM2 or a dedicated Netlify Background Function/Sidecar)
+# if persistent "Online" status is required in production.
