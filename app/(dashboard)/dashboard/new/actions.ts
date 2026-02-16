@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { createDiscordTicket } from "@/lib/discord";
 
 export async function createOrder(formData: FormData) {
     const supabase = await createClient();
@@ -26,10 +27,19 @@ export async function createOrder(formData: FormData) {
 
     if (error) {
         console.error("Error creating order:", error);
-        // Ideally return error state
         redirect("/dashboard/new?error=Failed to create order");
     }
 
+    // Discord Integration
+    const discordTicket = await createDiscordTicket(title, user.email || user.id);
+
     revalidatePath("/dashboard");
-    redirect("/dashboard");
+
+    // Redirect to success page with discord info
+    const successUrl = new URL("/dashboard/new/success", "http://localhost:3000");
+    if (discordTicket) {
+        successUrl.searchParams.set("ticketUrl", discordTicket.url);
+    }
+
+    redirect(successUrl.pathname + successUrl.search);
 }
