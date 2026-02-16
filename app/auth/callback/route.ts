@@ -12,11 +12,9 @@ export async function GET(request: Request) {
         const supabase = await createClient();
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) {
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || origin;
-            return NextResponse.redirect(`${siteUrl}${next}`);
+            return NextResponse.redirect(`${origin}${next}`);
         }
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || origin;
-    return NextResponse.redirect(`${siteUrl}/login?error=Could not authenticate user`);
+    return NextResponse.redirect(`${origin}/login?error=Could not authenticate user`);
 }

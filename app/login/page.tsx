@@ -31,7 +31,7 @@ function LoginForm() {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: provider,
             options: {
-                redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback`,
+                redirectTo: `${window.location.origin}/auth/callback`,
             },
         });
 
