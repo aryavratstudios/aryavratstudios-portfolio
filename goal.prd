@@ -1,0 +1,257 @@
+# GOAL.PRD
+
+## Aryavrat Studio Portal (SaaS-Style Agency System)
+
+---
+
+# 1. PRODUCT GOAL
+
+Build a premium SaaS-style agency platform where:
+
+* Clients can order services
+* Managers can manage projects
+* Approved work automatically appears in the public portfolio
+
+The system must feel structured, premium, and operational — not like a freelancer website.
+
+Timeline target: Fast MVP foundation (buildable within 1–2 focused sessions).
+
+---
+
+# 2. PRODUCT POSITIONING
+
+Product Name (Internal): Aryavrat Studio Portal
+Public Framing: "Private Client Workspace"
+
+This is not:
+
+* A marketplace
+* A gig platform
+* An AI tool
+
+This is:
+
+* A structured studio system
+* A client operations dashboard
+* A long-term partnership platform
+
+---
+
+# 3. CORE USER TYPES
+
+## 3.1 Client
+
+Can:
+
+* Create new service orders
+* Track order status
+* View deliverables
+* Request revisions
+* Approve completed work
+* View order history
+
+## 3.2 Admin (Manager)
+
+Can:
+
+* View all projects
+* Change project status
+* Upload deliverables
+* Toggle "Show in Portfolio"
+* Add project metrics (CTR, growth, etc.)
+
+---
+
+# 4. CORE FEATURES (MVP)
+
+## 4.1 Public Website Layer
+
+Pages:
+
+* Home
+* Services
+* Work (auto-fed from approved projects)
+* About
+* Login
+
+Work page auto-displays:
+Projects where:
+
+* status = "Completed"
+* show_in_portfolio = true
+
+---
+
+## 4.2 Client Dashboard
+
+Route: /dashboard
+
+Features:
+
+* Overview panel
+* New Order form
+* Orders list (status-based)
+* Project detail view (modal or page)
+* Comment thread
+* Approve & Close button
+
+Statuses:
+
+* Pending Review
+* In Progress
+* Delivered
+* Revision Requested
+* Approved
+* Completed
+
+---
+
+## 4.3 Admin Panel
+
+Route: /admin
+
+Features:
+
+* All projects table
+* Status change control
+* Deliverable upload
+* Portfolio toggle switch
+* Project metrics input
+
+Auto-portfolio logic:
+When:
+
+* status = Completed
+* show_in_portfolio = true
+
+Then:
+
+* Project appears on /work page
+
+---
+
+# 5. DATA MODEL (MVP)
+
+## users
+
+* id
+* name
+* email
+* role (client/admin)
+* created_at
+
+## projects
+
+* id
+* user_id
+* title
+* description
+* service_type
+* status
+* deadline
+* deliverable_url
+* show_in_portfolio (boolean)
+* created_at
+
+## comments
+
+* id
+* project_id
+* user_id
+* message
+* created_at
+
+---
+
+# 6. TECH STACK
+
+Frontend:
+
+* Next.js 14 (App Router)
+* TailwindCSS
+* Lucide Icons
+
+Backend:
+
+* Supabase (Auth + DB + Storage)
+
+Deployment:
+
+* Vercel
+
+---
+
+# 7. DESIGN SYSTEM REQUIREMENTS
+
+Theme:
+
+* Dark neutral base (#111 or similar)
+* Elevated dark cards (#1a1a1a range)
+* Warm accent (muted gold / sand tone)
+
+Strictly avoid:
+
+* Blue
+* Purple
+* Neon gradients
+* AI-style glow aesthetics
+
+UI Feel:
+
+* Premium SaaS dashboard
+* Glassmorphism navbar
+* Sidebar layout (dashboard)
+* Soft rounded corners (not bubbly)
+* Large spacing
+* No emojis
+
+Icons:
+
+* Lucide only
+
+---
+
+# 8. RESPONSIVENESS
+
+Desktop:
+
+* Sidebar layout
+* Floating glass navbar
+
+Tablet:
+
+* Compact sidebar
+* Scaled typography
+
+Mobile:
+
+* Bottom dock navigation
+* Stacked layout
+* Bottom-sheet modals
+* No horizontal scroll
+
+---
+
+# 9. SUCCESS CRITERIA
+
+MVP is successful if:
+
+* Client can create order
+* Admin can update status
+* Client can approve project
+* Approved project automatically appears on Work page
+* UI feels premium and operational
+
+---
+
+# 10. LONG-TERM EXPANSION (NOT MVP)
+
+* Notifications
+* Client billing system
+* Subscription retainers
+* Team roles
+* Analytics dashboard
+
+---
+
+END OF DOCUMENT
