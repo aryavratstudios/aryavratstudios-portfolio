@@ -13,6 +13,21 @@ export async function createOrder(formData: FormData) {
         redirect("/login");
     }
 
+    // Ensure profile exists (Safety check for FK container)
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", user.id)
+        .single();
+
+    if (!profile) {
+        await supabase.from("profiles").insert({
+            id: user.id,
+            email: user.email!,
+            role: "client"
+        });
+    }
+
     const title = formData.get("title") as string;
     const service_type = formData.get("service") as string;
     const description = formData.get("description") as string;

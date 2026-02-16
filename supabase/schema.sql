@@ -55,8 +55,9 @@ create policy "Admins can view all projects" on public.projects
 create policy "Users can create projects" on public.projects
   for insert with check (auth.uid() = user_id);
 
-create policy "Admins can update projects" on public.projects
+create policy "Users can update own projects" on public.projects
   for update using (
+    auth.uid() = user_id or
     exists (
       select 1 from public.profiles
       where profiles.id = auth.uid() and profiles.role = 'admin'

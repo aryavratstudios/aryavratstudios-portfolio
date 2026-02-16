@@ -10,6 +10,12 @@ export async function completePayment(projectId: string) {
 
     if (!user) throw new Error("Unauthorized");
 
+    // Safety check for profile (ensure FK doesn't fail)
+    const { data: profile } = await supabase.from("profiles").select("id").eq("id", user.id).single();
+    if (!profile) {
+        await supabase.from("profiles").insert({ id: user.id, email: user.email!, role: "client" });
+    }
+
     // Fetch project details
     const { data: project, error: fetchError } = await supabase
         .from("projects")
