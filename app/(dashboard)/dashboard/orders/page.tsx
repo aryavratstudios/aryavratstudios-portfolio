@@ -113,7 +113,14 @@ export default function OrdersPage() {
                                         </div>
 
                                         <div className="md:w-64 bg-white/5 p-8 flex flex-col justify-center items-center md:border-l border-white/10 border-t md:border-t-0 space-y-3">
-                                            <Button asChild className="w-full rounded-xl bg-primary text-black font-bold h-11 hover:scale-105 transition-all">
+                                            {order.status === 'pending_review' && (
+                                                <Button asChild className="w-full rounded-xl bg-primary text-black font-bold h-11 hover:scale-105 transition-all shadow-glow-primary">
+                                                    <Link href={`/dashboard/checkout/${order.id}`}>
+                                                        Complete Payment <Zap className="ml-2 h-4 w-4" />
+                                                    </Link>
+                                                </Button>
+                                            )}
+                                            <Button asChild variant="outline" className="w-full rounded-xl border-white/10 text-zinc-400 hover:text-white h-11 transition-all">
                                                 <Link href={`/dashboard/orders/${order.id}`}>
                                                     Details <ArrowUpRight className="ml-2 h-4 w-4" />
                                                 </Link>
