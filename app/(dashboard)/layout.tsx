@@ -1,4 +1,5 @@
 import { Sidebar } from "@/components/sidebar";
+import { MobileNav } from "@/components/mobile-nav";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -26,7 +27,8 @@ export default async function DashboardLayout({
     return (
         <div className="flex min-h-screen bg-black overflow-hidden selection:bg-primary selection:text-black">
             <Sidebar role={role} />
-            <main className="flex-1 overflow-y-auto relative custom-scrollbar">
+            <MobileNav role={role} />
+            <main className="flex-1 overflow-y-auto relative custom-scrollbar pt-20 md:pt-0">
                 {/* Ambient Background */}
                 <div className="fixed inset-0 pointer-events-none -z-10">
                     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] opacity-50"></div>

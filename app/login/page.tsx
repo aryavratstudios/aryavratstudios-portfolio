@@ -1,21 +1,11 @@
 "use client";
 
-import { login, signup } from "./actions";
 import { createBrowserClient } from "@supabase/ssr";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-import { Button } from "@/components/ui/button"; // Will create this later, use standard HTML for now or inline styles
-import { Input } from "@/components/ui/input"; // Will create this later
-import { Label } from "@/components/ui/label"; // Will create this later
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"; // Will create this later
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Will create this later
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Will create this later
-import { Loader2 } from "lucide-react";
-import Image from "next/image";
-
-// Since I haven't created the UI components yet, I will create a basic version first.
-// Wait, I should create the UI components first to make it look good as per "Rich Aesthetics".
-// I'll create the UI components after this. For now, I'll use standard Tailwind classes.
+import { Suspense, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+import { LogIn, Globe, Shield, Zap, MessageSquare } from "lucide-react";
 
 export default function LoginPage() {
     return (
@@ -29,75 +19,134 @@ function LoginForm() {
     const searchParams = useSearchParams();
     const error = searchParams.get("error");
     const message = searchParams.get("message");
+    const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 
-    const handleGoogleLogin = async () => {
+    const handleLogin = async (provider: 'google' | 'discord') => {
+        setLoadingProvider(provider);
         const supabase = createBrowserClient(
             process.env.NEXT_PUBLIC_SUPABASE_URL!,
             process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
         );
-        await supabase.auth.signInWithOAuth({
-            provider: "google",
+
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: provider,
             options: {
-                redirectTo: `${location.origin}/auth/callback`,
+                redirectTo: `${window.location.origin}/auth/callback`,
             },
         });
+
+        if (error) {
+            setLoadingProvider(null);
+            console.error(`${provider} login error:`, error);
+        }
     };
 
     return (
-        <div className="flex min-h-screen w-full items-center justify-center bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center p-4">
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-            <div className="relative w-full max-w-md space-y-8 glass-card p-8 rounded-2xl animate-in fade-in zoom-in duration-500">
-                <div className="flex flex-col items-center space-y-2 text-center">
-                    <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-black"><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" /></svg>
+        <div className="flex min-h-screen w-full items-center justify-center bg-black relative overflow-hidden">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center brightness-[0.3]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+
+            {/* Ambient Glows */}
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-slow" />
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] animate-pulse-slow delay-700" />
+
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-10 w-full max-w-lg px-4"
+            >
+                <div className="glass-card p-10 md:p-14 rounded-[3rem] border border-white/10 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <Shield className="w-32 h-32 text-white" />
                     </div>
-                    <h1 className="text-3xl font-bold tracking-tight text-white">Welcome Back</h1>
-                    <p className="text-sm text-zinc-400">Enter your credentials to access the portal</p>
+
+                    <div className="space-y-12 relative z-10">
+                        <div className="space-y-4">
+                            <motion.div
+                                initial={{ scale: 0.8 }}
+                                animate={{ scale: 1 }}
+                                className="h-16 w-16 bg-primary rounded-2xl flex items-center justify-center shadow-glow-primary mb-8"
+                            >
+                                <LogIn className="h-8 w-8 text-black" />
+                            </motion.div>
+                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white">
+                                Access the <span className="text-primary italic">Atelier</span>
+                            </h1>
+                            <p className="text-zinc-400 text-lg leading-relaxed">
+                                Join our exclusive ecosystem of high-performance digital craftsmanship.
+                            </p>
+                        </div>
+
+                        <AnimatePresence>
+                            {(error || message) && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className={`p-4 rounded-2xl text-sm font-bold flex items-center gap-3 border ${error ? "bg-red-500/10 border-red-500/20 text-red-500" : "bg-green-500/10 border-green-500/20 text-green-500"
+                                        }`}
+                                >
+                                    <div className={`h-2 w-2 rounded-full animate-pulse ${error ? "bg-red-500" : "bg-green-500"}`} />
+                                    {error || message}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <Button
+                                onClick={() => handleLogin('google')}
+                                disabled={!!loadingProvider}
+                                className="h-16 rounded-2xl bg-white text-black hover:bg-zinc-200 font-bold text-lg shadow-xl hover:scale-105 transition-all group lg:px-8"
+                            >
+                                {loadingProvider === 'google' ? (
+                                    <Zap className="h-6 w-6 animate-spin" />
+                                ) : (
+                                    <>
+                                        <svg className="mr-3 h-6 w-6" viewBox="0 0 24 24">
+                                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+                                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                                        </svg>
+                                        Google
+                                    </>
+                                )}
+                            </Button>
+
+                            <Button
+                                onClick={() => handleLogin('discord')}
+                                disabled={!!loadingProvider}
+                                className="h-16 rounded-2xl bg-[#5865F2] text-white hover:bg-[#4752C4] font-bold text-lg shadow-xl hover:scale-105 transition-all group lg:px-8"
+                            >
+                                {loadingProvider === 'discord' ? (
+                                    <Zap className="h-6 w-6 animate-spin" />
+                                ) : (
+                                    <>
+                                        <MessageSquare className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform" />
+                                        Discord
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+
+                        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-600">
+                            <span className="flex items-center gap-2 hover:text-zinc-400 transition-colors cursor-default">
+                                <Globe className="w-3 h-3" /> Global Infrastructure
+                            </span>
+                            <span className="flex items-center gap-2 hover:text-zinc-400 transition-colors cursor-default">
+                                <Shield className="w-3 h-3" /> Secure Handshake
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                {error && (
-                    <div className="p-3 text-sm text-red-500 bg-red-500/10 border border-red-500/20 rounded-md text-center">
-                        {error}
-                    </div>
-                )}
-
-                {message && (
-                    <div className="p-3 text-sm text-green-500 bg-green-500/10 border border-green-500/20 rounded-md text-center">
-                        {message}
-                    </div>
-                )}
-
-                <div className="grid gap-6">
-                    <form>
-                        <div className="grid gap-4">
-                            <div className="grid gap-2">
-                                <label className="text-sm font-medium leading-none text-zinc-300" htmlFor="email">Email</label>
-                                <input className="flex h-11 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 text-white transition-all hover:bg-white/10" id="email" name="email" placeholder="name@example.com" type="email" required />
-                            </div>
-                            <div className="grid gap-2">
-                                <label className="text-sm font-medium leading-none text-zinc-300" htmlFor="password">Password</label>
-                                <input className="flex h-11 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 text-white transition-all hover:bg-white/10" id="password" name="password" type="password" required />
-                            </div>
-                            <button formAction={login} className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-black hover:bg-primary/90 h-11 px-4 py-2 w-full shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]">Sign In</button>
-                            <button formAction={signup} className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-white/10 bg-transparent hover:bg-white/5 text-white h-11 px-4 py-2 w-full">Create Account</button>
-                        </div>
-                    </form>
-
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t border-white/10"></span>
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-black/40 px-2 text-zinc-500 backdrop-blur-md rounded-full">Or continue with</span>
-                        </div>
-                    </div>
-
-                    <button onClick={handleGoogleLogin} className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-white/10 bg-white/5 hover:bg-white/10 text-white h-11 px-4 py-2 w-full group">
-                        <svg className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
-                        Google
-                    </button>
-                </div>
-            </div>
+                <p className="mt-12 text-center text-zinc-600 text-xs font-bold uppercase tracking-widest leading-relaxed">
+                    By accessing the portal, you agree to our <br className="sm:hidden" />
+                    <a href="/terms" className="text-zinc-400 hover:text-primary transition-colors underline underline-offset-4 decoration-primary/20">Terms</a> and <a href="/privacy" className="text-zinc-400 hover:text-primary transition-colors underline underline-offset-4 decoration-primary/20">Privacy Principles</a>
+                </p>
+            </motion.div>
         </div>
     );
 }
