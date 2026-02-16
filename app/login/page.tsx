@@ -6,6 +6,7 @@ import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogIn, Globe, Shield, Zap, MessageSquare } from "lucide-react";
+import { getSiteUrl } from "@/lib/utils";
 
 export default function LoginPage() {
     return (
@@ -31,7 +32,7 @@ function LoginForm() {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: provider,
             options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
+                redirectTo: `${getSiteUrl()}/auth/callback`,
             },
         });
 

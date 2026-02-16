@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
 import { createClient } from "@/lib/supabase/server";
+import { getSiteUrl } from "@/lib/utils";
 
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url);
@@ -12,9 +13,11 @@ export async function GET(request: Request) {
         const supabase = await createClient();
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) {
-            return NextResponse.redirect(`${origin}${next}`);
+            const siteUrl = getSiteUrl(request);
+            return NextResponse.redirect(`${siteUrl}${next}`);
         }
     }
 
-    return NextResponse.redirect(`${origin}/login?error=Could not authenticate user`);
+    const siteUrl = getSiteUrl(request);
+    return NextResponse.redirect(`${siteUrl}/login?error=Could not authenticate user`);
 }
