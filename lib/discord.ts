@@ -1,3 +1,26 @@
+export async function getDiscordStatus() {
+    const guildId = process.env.DISCORD_GUILD_ID;
+    const botToken = process.env.DISCORD_BOT_TOKEN;
+
+    if (!botToken || !guildId) return { status: 'missing_config' };
+
+    try {
+        const response = await fetch(`https://discord.com/api/v10/guilds/${guildId}`, {
+            headers: { 'Authorization': `Bot ${botToken}` }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return { status: 'connected', guildName: data.name };
+        }
+
+        const errorData = await response.json();
+        return { status: 'error', message: errorData.message || 'Verification failed' };
+    } catch (error) {
+        return { status: 'error', message: 'API unreachable' };
+    }
+}
+
 export async function createDiscordTicket(projectName: string, clientName: string) {
     const guildId = process.env.DISCORD_GUILD_ID;
     const botToken = process.env.DISCORD_BOT_TOKEN;
@@ -37,7 +60,7 @@ export async function createDiscordTicket(projectName: string, clientName: strin
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Discord API Error:", errorData);
+            console.error("Discord API Error (Details):", JSON.stringify(errorData, null, 2));
             return null;
         }
 

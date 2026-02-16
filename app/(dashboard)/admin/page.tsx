@@ -1,9 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { updateProjectStatus, togglePortfolio } from "./actions";
 import { Button } from "@/components/ui/button";
-import { Shield, Eye, EyeOff, User, MoreVertical, Search, Filter } from "lucide-react";
+import { Shield, Eye, EyeOff, User, MoreVertical, Search, Filter, MessageSquare, AlertCircle, CheckCircle2, ExternalLink } from "lucide-react";
+import { getDiscordStatus } from "@/lib/discord";
 
 export default async function AdminPage() {
     const supabase = await createClient();
@@ -26,6 +28,9 @@ export default async function AdminPage() {
         .select("*, profiles(email, full_name, role)")
         .order("created_at", { ascending: false });
 
+    const discordStatus = await getDiscordStatus();
+    const botInviteUrl = "https://discord.com/api/oauth2/authorize?client_id=1471380841044377774&permissions=8&scope=bot";
+
     return (
         <div className="space-y-12 pb-24">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -39,7 +44,32 @@ export default async function AdminPage() {
                     <p className="text-zinc-500 text-sm font-medium">Manage studio project pipelines and curated showcases.</p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
+                    <div className={cn(
+                        "flex items-center gap-3 px-4 py-2 rounded-2xl border transition-all",
+                        discordStatus.status === 'connected'
+                            ? "bg-green-500/10 border-green-500/20 text-green-500"
+                            : "bg-red-500/10 border-red-500/20 text-red-500"
+                    )}>
+                        {discordStatus.status === 'connected' ? (
+                            <>
+                                <CheckCircle2 className="w-4 h-4" />
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-green-500/70 leading-none mb-1">Discord Bot</span>
+                                    <span className="text-[10px] font-bold uppercase truncate max-w-[120px]">{discordStatus.guildName}</span>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <AlertCircle className="w-4 h-4" />
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">Bot Offline</span>
+                                    <a href={botInviteUrl} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase underline hover:text-white">Invite Bot</a>
+                                </div>
+                            </>
+                        )}
+                    </div>
+
                     <div className="relative group">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-primary transition-colors" />
                         <input
