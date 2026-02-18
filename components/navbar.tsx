@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
     const [user, setUser] = useState<User | null>(null);
@@ -25,7 +26,6 @@ export default function Navbar() {
         getUser();
     }, [supabase]);
 
-    // Handle scroll effect
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -61,20 +61,25 @@ export default function Navbar() {
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 className={cn(
-                    "w-full max-w-6xl rounded-2xl flex items-center justify-between px-6 py-3 transition-all duration-300 backdrop-blur-xl border",
+                    "w-full max-w-6xl rounded-2xl flex items-center justify-between px-5 py-3 transition-all duration-300 backdrop-blur-xl border",
                     isScrolled 
-                        ? "bg-black/80 border-white/10 shadow-xl shadow-black/20" 
-                        : "bg-black/60 border-white/10 shadow-lg shadow-black/10"
+                        ? "bg-black/90 border-white/10 shadow-xl shadow-black/30" 
+                        : "bg-black/80 border-white/10 shadow-lg shadow-black/20"
                 )}
             >
-                {/* Logo */}
+                {/* Logo with Image */}
                 <Link href="/" className="flex items-center gap-3 group">
-                    <div className="h-12 w-12 bg-gradient-to-br from-primary to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
-                        <span className="text-black text-xl font-black">A</span>
+                    <div className="relative h-12 w-12 rounded-xl overflow-hidden shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform duration-300">
+                        <Image
+                            src="/logo.jpg"
+                            alt="AryavratHQ"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
                     </div>
                     <div className="hidden sm:block">
-                        <span className="text-white font-bold text-lg tracking-tight">Aryavrat<span className="text-primary">.</span></span>
-                        <div className="text-[10px] text-zinc-500 -mt-1 tracking-widest">STUDIOS</div>
+                        <span className="text-white font-bold text-lg tracking-tight">Aryavrat<span className="text-primary">HQ</span></span>
                     </div>
                 </Link>
 
@@ -167,7 +172,6 @@ export default function Navbar() {
                         </Link>
                     </Button>
 
-                    {/* Mobile Menu Button */}
                     <button
                         className="lg:hidden p-2.5 text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
