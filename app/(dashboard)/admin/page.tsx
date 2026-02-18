@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { updateProjectStatus, togglePortfolio, updateProfileRole, createCoupon, updateProjectPrice, createUser } from "./actions";
 import { Button } from "@/components/ui/button";
-import { Shield, Eye, EyeOff, User, Users, Tag, DollarSign, Plus, AlertCircle, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { Shield, Eye, EyeOff, User, Users, Tag, DollarSign, Plus, AlertCircle, CheckCircle2, ArrowUpRight, Brain, Image as ImageIcon, Activity } from "lucide-react";
 import { getDiscordStatus } from "@/lib/discord";
 import { AutoSubmitInput, AutoSubmitSelect } from "@/components/admin/auto-submit-controls";
 import { addPortfolioItem, deletePortfolioItem } from "./portfolio-actions";
@@ -86,6 +86,7 @@ export default async function AdminPage() {
             <Tabs defaultValue="projects" className="space-y-8">
                 <TabsList className="bg-zinc-900/40 border border-white/5 p-1 rounded-2xl h-14">
                     <TabsTrigger value="projects" className="rounded-xl px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:text-black transition-all">Projects</TabsTrigger>
+                    <TabsTrigger value="intelligence" className="rounded-xl px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:text-black transition-all">Intelligence</TabsTrigger>
                     <TabsTrigger value="team" className="rounded-xl px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:text-black transition-all">Team & Users</TabsTrigger>
                     <TabsTrigger value="portfolio" className="rounded-xl px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:text-black transition-all">Portfolio</TabsTrigger>
                     <TabsTrigger value="coupons" className="rounded-xl px-8 font-black uppercase text-[10px] tracking-widest data-[state=active]:bg-white data-[state=active]:text-black transition-all">Economic Control</TabsTrigger>
@@ -183,6 +184,50 @@ export default async function AdminPage() {
                                         ))}
                                     </tbody>
                                 </table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="intelligence">
+                    <Card className="glass-card border-white/5 bg-zinc-900/20 overflow-hidden shadow-2xl">
+                        <CardHeader className="p-10 flex flex-row items-center justify-between border-b border-white/5 bg-white/[0.02]">
+                            <div className="flex items-center gap-4">
+                                <div className="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow-primary">
+                                    <Brain className="w-7 h-7 text-primary" />
+                                </div>
+                                <div>
+                                    <CardTitle className="text-2xl font-black uppercase tracking-tighter">AI Project Intelligence</CardTitle>
+                                    <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mt-1">Screenshot-based neural analytics pipeline.</p>
+                                </div>
+                            </div>
+                            <Link href="/admin/intelligence/active">
+                                <Button className="h-12 px-8 rounded-2xl bg-white text-black font-black uppercase text-[10px] tracking-widest shadow-glow-primary hover:scale-105 transition-all">
+                                    Open Intelligence HQ
+                                </Button>
+                            </Link>
+                        </CardHeader>
+                        <CardContent className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div className="glass-card p-8 rounded-[2.5rem] border border-white/5 bg-zinc-900/40 space-y-4">
+                                <div className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
+                                    <ImageIcon className="w-5 h-5 text-zinc-400" />
+                                </div>
+                                <h4 className="text-lg font-black uppercase tracking-tight">Active Extraction</h4>
+                                <p className="text-zinc-500 text-xs font-medium leading-relaxed">System currently monitoring 12 active screenshot feeds for project metadata.</p>
+                            </div>
+                            <div className="glass-card p-8 rounded-[2.5rem] border border-white/5 bg-zinc-900/40 space-y-4">
+                                <div className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
+                                    <Activity className="w-5 h-5 text-zinc-400" />
+                                </div>
+                                <h4 className="text-lg font-black uppercase tracking-tight">Timeline Engine</h4>
+                                <p className="text-zinc-500 text-xs font-medium leading-relaxed">Auto-generating chronological event logs from WhatsApp and Discord chats.</p>
+                            </div>
+                            <div className="glass-card p-8 rounded-[2.5rem] border border-white/5 bg-zinc-900/40 space-y-4">
+                                <div className="h-10 w-10 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
+                                    <DollarSign className="w-5 h-5 text-zinc-400" />
+                                </div>
+                                <h4 className="text-lg font-black uppercase tracking-tight">Financial Guard</h4>
+                                <p className="text-zinc-500 text-xs font-medium leading-relaxed">Tracking $4,200 in pending revenue across extracted payment screenshots.</p>
                             </div>
                         </CardContent>
                     </Card>
