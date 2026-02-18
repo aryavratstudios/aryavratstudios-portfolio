@@ -39,7 +39,7 @@ export function AutoSubmitSelect({
     action
 }: {
     name: string;
-    defaultValue: string;
+    defaultValue?: string;
     className?: string;
     children: React.ReactNode;
     action: (formData: FormData) => Promise<void>;
