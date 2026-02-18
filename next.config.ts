@@ -54,6 +54,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  // Set base URL for production
+  basePath: "",
 };
 
 export default nextConfig;
