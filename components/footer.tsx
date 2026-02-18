@@ -31,8 +31,8 @@ export default function Footer() {
 
     return (
         <footer className="border-t border-white/5 bg-black">
-            <div className="container mx-auto px-4 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
+            <div className="container mx-auto px-4 py-12 md:py-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8">
                     {/* Newsletter Section */}
                     <div className="lg:col-span-2">
                         <div className="flex items-center gap-2 mb-4">
@@ -44,20 +44,20 @@ export default function Footer() {
                         <h3 className="text-sm font-bold text-white mb-2">Keep up to date</h3>
                         <p className="text-sm text-zinc-500 mb-6">Join our newsletter for regular updates. No spam ever.</p>
 
-                        <form onSubmit={handleSubscribe} className="flex gap-2">
+                        <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2">
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="example@email.com"
-                                className="flex-1 h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                                placeholder="your@email.com"
+                                className="flex-1 h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                                 required
                                 disabled={isPending}
                             />
                             <Button
                                 type="submit"
                                 disabled={isPending}
-                                className="h-11 px-6 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all disabled:opacity-50"
+                                className="h-12 px-6 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all disabled:opacity-50 whitespace-nowrap"
                             >
                                 {isPending ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />
