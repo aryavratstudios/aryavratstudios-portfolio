@@ -92,17 +92,17 @@ export async function createCoupon(formData: FormData) {
     revalidatePath("/admin");
 }
 
-export async function createUser(formData: FormData) {
+export async function createUser(formData: FormData): Promise<void> {
     const supabase = await createClient();
     const email = formData.get("email") as string;
     const fullName = formData.get("full_name") as string;
     const role = formData.get("role") as string;
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { error: "Not authenticated" };
+    if (!user) return;
 
     const { data: adminProfile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-    if (adminProfile?.role !== "admin") return { error: "Not authorized" };
+    if (adminProfile?.role !== "admin") return;
 
     // Create auth user with admin privileges
     const { data: newUser, error: authError } = await supabase.auth.admin.createUser({
@@ -115,7 +115,7 @@ export async function createUser(formData: FormData) {
 
     if (authError) {
         console.error("Auth error:", authError);
-        return { error: authError.message };
+        return;
     }
 
     // Update profile with role
@@ -127,7 +127,6 @@ export async function createUser(formData: FormData) {
     }
 
     revalidatePath("/admin");
-    return { success: true };
 }
 
 
