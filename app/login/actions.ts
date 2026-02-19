@@ -4,8 +4,16 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function login(formData: FormData) {
+    // Rate limiting for login attempts
+    const email = formData.get("email") as string;
+    const rateCheck = checkRateLimit(email, "auth-login");
+    if (!rateCheck.allowed) {
+        redirect("/login?error=Too many login attempts. Please wait 15 minutes.");
+    }
+
     const supabase = await createClient();
 
     // type-casting here for convenience
@@ -26,6 +34,13 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+    // Rate limiting for signup attempts
+    const email = formData.get("email") as string;
+    const rateCheck = checkRateLimit(email, "auth-signup");
+    if (!rateCheck.allowed) {
+        redirect("/login?error=Too many signup attempts. Please try again later.");
+    }
+
     const supabase = await createClient();
 
     // type-casting here for convenience

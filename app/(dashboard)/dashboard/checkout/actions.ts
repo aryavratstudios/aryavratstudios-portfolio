@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createDiscordTicket } from "@/lib/discord";
 import { validatePrice, getBasePrice } from "@/lib/pricing";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { logActivity, generatePaymentToken } from "@/lib/security";
 
 export async function validateCoupon(code: string) {
     // Rate limiting for coupon validation
@@ -70,6 +71,9 @@ export async function completePayment(projectId: string, couponId?: string) {
     let finalPrice = priceValidation.basePrice;
     let discountAmount = 0;
 
+    // Generate payment token for audit trail
+    const paymentToken = generatePaymentToken();
+
     if (couponId) {
         const { data: coupon } = await supabase
             .from("coupons")
@@ -83,18 +87,32 @@ export async function completePayment(projectId: string, couponId?: string) {
         }
     }
 
-    // Update status and final pricing details
+    // Update status and final pricing details with payment token
     const { error: updateError } = await supabase
         .from("projects")
         .update({
             status: "in_progress",
             discount_amount: discountAmount,
             final_price: finalPrice,
-            coupon_id: couponId || null
+            coupon_id: couponId || null,
+            payment_token: paymentToken
         })
         .eq("id", projectId);
 
     if (updateError) throw new Error("Failed to update project status");
+
+    // Create audit trail for payment
+    await logActivity({
+        action: "payment_completed",
+        resourceId: projectId,
+        actorId: user.id,
+        metadata: {
+            amount: finalPrice,
+            discountAmount,
+            paymentToken,
+            serviceType: project.service_type
+        }
+    });
 
     // Create Discord Ticket
     const discordTicket = await createDiscordTicket(project.title, user.email || user.id);

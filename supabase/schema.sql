@@ -62,6 +62,7 @@ create table public.projects (
   discount_amount numeric default 0,
   final_price numeric default 35,
   coupon_id uuid references public.coupons(id) on delete set null,
+  payment_token text,
   deadline timestamptz,
   deliverable_url text,
   show_in_portfolio boolean default false,

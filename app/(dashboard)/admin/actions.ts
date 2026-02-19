@@ -63,7 +63,14 @@ export async function updateProjectStatus(formData: FormData) {
 
 export async function togglePortfolio(formData: FormData) {
     // Verify admin authorization
-    await requireAdmin();
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
     
     const id = formData.get("id") as string;
@@ -85,7 +92,14 @@ export async function togglePortfolio(formData: FormData) {
 
 export async function updateProfileRole(formData: FormData) {
     // Verify admin authorization
-    await requireAdmin();
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
     
     const id = formData.get("id") as string;
@@ -110,7 +124,14 @@ export async function updateProfileRole(formData: FormData) {
 
 export async function createCoupon(formData: FormData) {
     // Verify admin authorization
-    await requireAdmin();
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
     
     const code = formData.get("code") as string;
@@ -133,7 +154,14 @@ export async function createCoupon(formData: FormData) {
 
 export async function createUser(formData: FormData): Promise<void> {
     // Verify admin authorization
-    await requireAdmin();
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
     
     const email = formData.get("email") as string;
@@ -177,7 +205,14 @@ export async function createUser(formData: FormData): Promise<void> {
 
 export async function updateProjectPrice(formData: FormData) {
     // Verify admin authorization
-    await requireAdmin();
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
     
     const id = formData.get("id") as string;

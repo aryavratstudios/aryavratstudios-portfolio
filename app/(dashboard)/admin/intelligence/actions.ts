@@ -3,18 +3,22 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { extractMetadataFromScreenshot } from "@/lib/ai/ai-extraction";
+import { requireAdmin } from "@/lib/admin-auth";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function processScreenshotAction(projectId: string, imageUrl: string) {
+    // Verify admin authorization
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
 
-    // 1. Verify Admin
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Unauthorized");
-
-    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-    if (profile?.role !== "admin") throw new Error("Forbidden");
-
-    // 2. Trigger AI Extraction
+    // Trigger AI Extraction
     const extractedData = await extractMetadataFromScreenshot(imageUrl);
 
     // 3. Save Screenshot Record
@@ -90,6 +94,15 @@ export async function processScreenshotAction(projectId: string, imageUrl: strin
 }
 
 export async function syncToHqAction(projectId: string) {
+    // Verify admin authorization
+    const { user } = await requireAdmin();
+    
+    // Rate limiting for admin actions
+    const rateCheck = checkRateLimit(user.id, "admin");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many admin actions. Please wait.");
+    }
+    
     const supabase = await createClient();
 
     // Fetch project data and its intelligence relations
