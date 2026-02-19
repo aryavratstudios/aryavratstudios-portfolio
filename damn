@@ -170,5 +170,587 @@ Never abrupt
 Every interaction should feel intentional and refined.
 
 
+1. Change the Sidebar to this accordingly
+Side Bar Code - """
+<div className="w-64 h-[1000px] relative">
+  <div className="w-64 h-[1000px] left-0 top-0 absolute bg-stone-950/60 rounded-3xl shadow-[0px_64px_64px_-32px_rgba(41,15,0,0.56)] border-[0.50px] border-stone-400 backdrop-blur-[80px]" />
+  <div className="px-4 pt-6 pb-4 left-[24px] top-[795px] absolute bg-rose-950/10 rounded-3xl shadow-[0px_64px_64px_-32px_rgba(102,37,0,0.65)] shadow-[0px_64px_64px_-32px_rgba(102,37,0,0.56)] outline outline-[0.50px] outline-offset-[-0.50px] outline-stone-400 inline-flex flex-col justify-start items-start gap-5">
+    <div className="flex flex-col justify-start items-start gap-1.5">
+      <div className="w-44 text-center justify-start text-white text-base font-semibold font-['Inter'] leading-6 tracking-tight">Let&apos;s start!</div>
+      <div className="w-44 text-center justify-start text-white/60 text-xs font-medium font-['Inter'] leading-5">Creating or adding new tasks couldn&apos;t be easier</div>
+    </div>
+    <div className="w-44 h-12 pl-5 pr-6 py-2.5 bg-orange-400 rounded-xl shadow-[0px_4px_24px_0px_rgba(168,82,5,0.30)] inline-flex justify-center items-center gap-1.5">
+      <div className="w-6 h-6 relative origin-top-left -rotate-180 rounded-3xl">
+        <div className="w-3 h-3 left-[18px] top-[18px] absolute origin-top-left -rotate-180 outline outline-[1.60px] outline-offset-[-0.80px] outline-white" />
+      </div>
+      <div className="text-center justify-start text-white text-sm font-semibold font-['Inter'] leading-5">Add New Task</div>
+    </div>
+  </div>
+  <div className="left-[24px] top-[550px] absolute inline-flex flex-col justify-start items-start gap-1">
+    <div className="self-stretch pl-5 pr-1 inline-flex justify-start items-center gap-4">
+      <div className="flex-1 justify-center text-white/30 text-xs font-medium font-['Inter'] uppercase leading-6 tracking-wide">messages</div>
+      <div className="w-6 h-6 relative origin-top-left -rotate-180 rounded-3xl">
+        <div className="w-3 h-3 left-[18px] top-[18px] absolute origin-top-left -rotate-180 outline outline-[1.40px] outline-offset-[-0.70px] outline-white/30" />
+      </div>
+    </div>
+    <div className="w-52 flex flex-col justify-start items-center">
+      <div className="self-stretch px-5 py-4 relative rounded-xl outline outline-1 outline-offset-[-0.50px] inline-flex justify-start items-center gap-4">
+        <div className="w-1.5 h-1.5 left-[38px] top-[34px] absolute bg-neutral-400 rounded-full" />
+        <div className="w-6 h-6 relative bg-red-200 rounded-[30px] overflow-hidden">
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-red-900" />
+        </div>
+        <div className="flex-1 justify-start text-white/60 text-sm font-medium font-['Inter'] leading-5">Erik Gunsel</div>
+      </div>
+      <div className="self-stretch px-5 py-4 relative rounded-xl outline outline-1 outline-offset-[-0.50px] inline-flex justify-start items-center gap-4">
+        <div className="w-1.5 h-1.5 left-[38px] top-[34px] absolute bg-stone-900 rounded-full outline outline-1 outline-offset-[-0.50px] outline-stone-400" />
+        <div className="w-6 h-6 relative bg-orange-200 rounded-[30px] overflow-hidden">
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-orange-400" />
+        </div>
+        <div className="flex-1 justify-start text-white/60 text-sm font-medium font-['Inter'] leading-5">Emily Smith</div>
+      </div>
+      <div className="self-stretch px-5 py-4 relative rounded-xl outline outline-1 outline-offset-[-0.50px] inline-flex justify-start items-center gap-4">
+        <div className="w-1.5 h-1.5 left-[38px] top-[34px] absolute bg-neutral-400 rounded-full" />
+        <div className="w-6 h-6 relative bg-pink-200 rounded-[30px] overflow-hidden">
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-500" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-orange-300" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-stone-400" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-orange-300" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <img className="w-6 h-6 left-0 top-0 absolute" src="https://placehold.co/24x24" />
+          <div className="w-6 h-6 left-0 top-0 absolute mix-blend-overlay bg-orange-600" />
+        </div>
+        <div className="flex-1 justify-start text-white/60 text-sm font-medium font-['Inter'] leading-5">Arthur Adelk</div>
+      </div>
+    </div>
+  </div>
+  <div className="w-64 h-[0.50px] left-0 top-[533px] absolute opacity-30 bg-[radial-gradient(ellipse_50.00%_50.00%_at_50.00%_50.00%,_#CC8B8B_0%,_rgba(163.20,_58.75,_58.75,_0)_100%)]" />
+  <div className="left-[24px] top-[147px] absolute inline-flex flex-col justify-start items-start gap-1">
+    <div className="self-stretch pl-5 pr-1 inline-flex justify-start items-center gap-4">
+      <div className="flex-1 justify-center text-white/30 text-xs font-medium font-['Inter'] uppercase leading-6 tracking-wide">Main</div>
+    </div>
+    <div className="w-52 flex flex-col justify-start items-center">
+      <div className="self-stretch px-5 py-4 relative bg-white/5 rounded-xl outline outline-[0.50px] outline-offset-[-0.25px] outline-stone-400 inline-flex justify-start items-center gap-4 overflow-hidden">
+        <div className="w-72 h-14 left-[-52px] top-0 absolute opacity-50 bg-[radial-gradient(ellipse_50.00%_50.00%_at_50.00%_50.00%,_rgba(204,_138.72,_138.72,_0.48)_0%,_rgba(163.20,_58.75,_58.75,_0)_100%)] blur-[20px]" />
+        <div className="w-6 h-6 relative shadow-[0px_0px_16px_0px_rgba(255,255,255,1.00)]">
+          <div className="w-2.5 h-2.5 left-[2px] top-[2px] absolute border-[1.50px] border-white" />
+          <div className="w-2.5 h-2.5 left-[2px] top-[12.86px] absolute border-[1.50px] border-white" />
+          <div className="w-2.5 h-2.5 left-[12.86px] top-[2px] absolute border-[1.50px] border-white" />
+          <div className="w-2.5 h-2.5 left-[12.86px] top-[12.86px] absolute border-[1.50px] border-white" />
+        </div>
+        <div className="flex-1 justify-start text-white text-sm font-medium font-['Inter'] leading-5 [text-shadow:_0px_0px_16px_rgb(255_255_255_/_1.00)]">Dashboard</div>
+        <div className="w-6 h-6 relative origin-top-left -rotate-180 rounded-3xl">
+          <div className="w-3 h-1.5 left-[6px] top-[8px] absolute bg-white/30" />
+        </div>
+      </div>
+      <div className="self-stretch h-32 relative overflow-hidden">
+        <div className="w-40 left-[46px] top-[3px] absolute inline-flex flex-col justify-start items-start gap-2">
+          <div className="self-stretch px-3.5 py-2 rounded-md outline outline-1 outline-offset-[-1px] inline-flex justify-start items-start gap-2.5">
+            <div className="justify-center text-white/60 text-xs font-medium font-['Inter'] leading-5">Activity</div>
+          </div>
+          <div className="self-stretch px-3.5 py-2 rounded-md outline outline-1 outline-offset-[-1px] inline-flex justify-start items-start gap-2.5">
+            <div className="justify-center text-white/60 text-xs font-medium font-['Inter'] leading-5">Trafic</div>
+          </div>
+          <div className="self-stretch px-3.5 py-2 relative bg-white/5 rounded-xl outline outline-[0.50px] outline-offset-[-0.50px] outline-stone-400 inline-flex justify-start items-start gap-2.5 overflow-hidden">
+            <div className="justify-center text-white text-xs font-medium font-['Inter'] leading-5 [text-shadow:_0px_0px_16px_rgb(255_255_255_/_1.00)]">Statistic</div>
+            <div className="w-72 h-14 left-[-102px] top-[-10px] absolute opacity-50 bg-[radial-gradient(ellipse_50.00%_50.00%_at_50.00%_50.00%,_rgba(204,_138.72,_138.72,_0.48)_0%,_rgba(163.20,_58.75,_58.75,_0)_100%)] blur-[20px]" />
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch px-5 py-4 rounded-xl outline outline-1 outline-offset-[-0.50px] inline-flex justify-start items-center gap-4">
+        <div className="w-6 h-6 relative overflow-hidden">
+          <div className="w-1.5 h-2 left-[9.89px] top-[6.64px] absolute outline outline-[1.20px] outline-offset-[-0.60px] outline-white/60" />
+          <div className="w-5 h-5 left-[2.91px] top-[2.26px] absolute bg-white/60" />
+        </div>
+        <div className="flex-1 justify-start text-white/60 text-sm font-medium font-['Inter'] leading-5 [text-shadow:_0px_0px_16px_rgb(255_255_255_/_1.00)]">Invoices</div>
+      </div>
+      <div className="self-stretch px-5 py-4 rounded-xl outline outline-1 outline-offset-[-0.50px] inline-flex justify-start items-center gap-4">
+        <div className="w-6 h-6 relative overflow-hidden">
+          <div className="w-[1.50px] h-[1.50px] left-[15.75px] top-[12.89px] absolute bg-white/60 rounded-full" />
+        </div>
+        <div className="flex-1 justify-start text-white/60 text-sm font-medium font-['Inter'] leading-5 [text-shadow:_0px_0px_16px_rgb(255_255_255_/_1.00)]">Wallet</div>
+      </div>
+      <div className="self-stretch px-5 py-4 rounded-xl outline outline-1 outline-offset-[-0.50px] inline-flex justify-start items-center gap-4">
+        <div className="w-6 h-6 relative overflow-hidden">
+          <div className="w-3.5 h-3.5 left-[4.50px] top-[3px] absolute outline outline-[1.50px] outline-offset-[-0.75px] outline-white/60" />
+          <div className="w-1 h-px left-[10px] top-[20px] absolute outline outline-[1.50px] outline-offset-[-0.75px] outline-white/60" />
+        </div>
+        <div className="flex-1 justify-start text-white/60 text-sm font-medium font-['Inter'] leading-5 [text-shadow:_0px_0px_16px_rgb(255_255_255_/_1.00)]">Notification</div>
+      </div>
+    </div>
+  </div>
+  <div className="w-64 h-[0.50px] left-0 top-[130px] absolute opacity-30 bg-[radial-gradient(ellipse_50.00%_50.00%_at_50.00%_50.00%,_#CC8B8B_0%,_rgba(163.20,_58.75,_58.75,_0)_100%)]" />
+  <div className="w-6 h-6 left-[244px] top-[102px] absolute origin-top-left -rotate-90 bg-stone-950/40 rounded-3xl outline outline-[0.50px] outline-offset-[-0.50px] outline-stone-400 backdrop-blur-[90px]">
+    <div className="w-1.5 h-3 left-[8px] top-[6px] absolute opacity-80 bg-blend-overlay bg-white/25" />
+  </div>
+  <div className="left-[84px] top-[68px] absolute justify-center text-white/30 text-xs font-medium font-['Inter'] uppercase leading-5 tracking-wide">Product Designer</div>
+  <div className="left-[84px] top-[90px] absolute justify-start text-white text-sm font-medium font-['Inter'] leading-5 [text-shadow:_0px_0px_16px_rgb(255_255_255_/_1.00)]">Andrew Smith</div>
+  <div className="w-12 h-12 left-[24px] top-[66px] absolute bg-red-200 rounded-full" />
+  <img className="w-12 h-12 left-[24px] top-[66px] absolute rounded-[36.22px]" src="https://placehold.co/48x48" />
+  <div className="w-3 h-3 left-[64px] top-[24px] absolute bg-lime-600" />
+  <div className="w-3 h-3 left-[44px] top-[24px] absolute bg-amber-400" />
+  <div className="w-3 h-3 left-[24px] top-[24px] absolute bg-red-500" />
+</div>
+"""
+
+2. Change the Dashboard to something like this, Make sure it follows the dark mode.
+Dashboard UI CODE - """
+<div style={{width: 1680, height: 1020, position: 'relative', background: '#F5F5FA', overflow: 'hidden'}}>
+  <div style={{width: 1152, height: 375, left: 499, top: 618, position: 'absolute'}}>
+    <div style={{width: 1152, height: 375, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 10, outline: '1px #F0F0F3 solid'}} />
+    <div style={{width: 1152, height: 48, left: 0, top: 80, position: 'absolute'}}>
+      <div style={{width: 1152, height: 48, left: 0, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)'}} />
+      <div style={{left: 26, top: 14, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>Product</div>
+      <div style={{left: 254, top: 14, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>Customer</div>
+      <div style={{left: 482, top: 14, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>Delivery</div>
+      <div style={{left: 955, top: 14, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>Total</div>
+      <div style={{left: 828, top: 14, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>Shipping</div>
+      <div style={{left: 1092, top: 14, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>Status</div>
+    </div>
+    <div style={{width: 266, height: 40, left: 862, top: 22, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{width: 62, height: 40, left: 0, top: 0, position: 'absolute'}}>
+        <div style={{width: 62, height: 40, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 8, border: '1px #ECECF2 solid'}} />
+        <div style={{left: 18.50, top: 10, position: 'absolute', textAlign: 'center', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Day</div>
+      </div>
+      <div style={{width: 40, height: 40, left: 226, top: 0, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', opacity: 0.10, background: '#8181A5', borderRadius: 6}} />
+        <div style={{left: 11, top: 11, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+      </div>
+      <div style={{width: 64, height: 40, left: 70, top: 0, position: 'absolute'}}>
+        <div style={{left: 13.43, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Week</div>
+      </div>
+      <div style={{width: 76, height: 40, left: 142, top: 0, position: 'absolute'}}>
+        <div style={{left: 16.51, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Month</div>
+      </div>
+    </div>
+    <div style={{left: 24, top: 29, position: 'absolute', color: '#1C1D21', fontSize: 18, fontFamily: 'Lato', fontWeight: '700', lineHeight: 27, wordWrap: 'break-word'}}>Latest sales</div>
+    <div style={{width: 1103, height: 52, left: 25.16, top: 146.79, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{left: 904.78, top: 16, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$118.00</div>
+      <div style={{left: 805.28, top: 16, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$18.00</div>
+      <div style={{width: 106, height: 36, left: 996.68, top: 8, position: 'absolute'}}>
+        <div style={{width: 106, height: 36, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(124, 231, 172, 0.10) 0%, rgba(124, 231, 172, 0.10) 100%), white', borderRadius: 8}} />
+        <div style={{left: 28, top: 7, position: 'absolute', textAlign: 'center', color: '#7CE7AC', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Shipped</div>
+      </div>
+      <div style={{width: 211, height: 43, left: 457, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>United Kingdom</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>193 Cole Plains Suite 649, 891203</div>
+      </div>
+      <div style={{width: 164, height: 43, left: 230, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Rodney Cannon</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>rodney.cannon@gmail.com</div>
+      </div>
+      <div style={{width: 93, height: 43, left: 73, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Macbook Pro</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>ID 10-3290-08</div>
+      </div>
+      <img style={{width: 52, height: 52, left: 0, top: 0, position: 'absolute', borderRadius: 8}} src="https://placehold.co/52x52" />
+    </div>
+    <div style={{width: 1103, height: 52, left: 25.16, top: 221.79, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{left: 904.78, top: 16, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$208.00</div>
+      <div style={{left: 805.28, top: 16, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$28.00</div>
+      <div style={{width: 106, height: 36, left: 996.68, top: 8, position: 'absolute'}}>
+        <div style={{width: 106, height: 36, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(244, 190, 94, 0.10) 0%, rgba(244, 190, 94, 0.10) 100%), white', borderRadius: 8}} />
+        <div style={{left: 20, top: 7, position: 'absolute', textAlign: 'center', color: '#F4BE5E', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Processing</div>
+      </div>
+      <div style={{width: 181, height: 43, left: 457, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>United States</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>619 Jeffrey Freeway Apt. 273</div>
+      </div>
+      <div style={{width: 153, height: 43, left: 230, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Mike Franklin</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>mike.franklin@gmail.com</div>
+      </div>
+      <div style={{width: 93, height: 43, left: 73, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Dell Laptop</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>ID 10-3456-18</div>
+      </div>
+      <img style={{width: 52, height: 52, left: 0, top: 0, position: 'absolute', borderRadius: 8}} src="https://placehold.co/52x52" />
+    </div>
+    <div style={{width: 1103, height: 52, left: 25.16, top: 295.73, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{left: 904.78, top: 16, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$118.00</div>
+      <div style={{left: 805.28, top: 16, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$18.00</div>
+      <div style={{width: 106, height: 36, left: 996.68, top: 8, position: 'absolute'}}>
+        <div style={{width: 106, height: 36, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(244, 190, 94, 0.10) 0%, rgba(244, 190, 94, 0.10) 100%), white', borderRadius: 8}} />
+        <div style={{left: 20, top: 7, position: 'absolute', textAlign: 'center', color: '#F4BE5E', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Processing</div>
+      </div>
+      <div style={{width: 171, height: 43, left: 457, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Germany</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>200 Davis Estates Suite 621</div>
+      </div>
+      <div style={{width: 153, height: 43, left: 230, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Louis Franklin</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>louis.franklin@gmail.com</div>
+      </div>
+      <div style={{width: 93, height: 43, left: 73, top: 4, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Macbook Air</div>
+        <div style={{left: 0, top: 22, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>ID 10-3786-23</div>
+      </div>
+      <img style={{width: 52, height: 52, left: 0, top: 0, position: 'absolute', borderRadius: 8}} src="https://placehold.co/52x52" />
+    </div>
+  </div>
+  <div style={{width: 758, height: 380, left: 500, top: 210, position: 'absolute'}}>
+    <div style={{width: 757, height: 380, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 12, outline: '1px #F0F0F3 solid'}} />
+    <div style={{width: 707.13, height: 40, left: 24.93, top: 21, position: 'absolute'}}>
+      <div style={{left: 441, top: 0, position: 'absolute', justifyContent: 'flex-end', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
+        <div style={{width: 62, height: 40, position: 'relative'}}>
+          <div style={{width: 62, height: 40, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 8, border: '1px #ECECF2 solid'}} />
+          <div style={{left: 18.50, top: 10, position: 'absolute', textAlign: 'center', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Day</div>
+        </div>
+        <div style={{width: 64, height: 40, position: 'relative'}}>
+          <div style={{left: 13.43, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Week</div>
+        </div>
+        <div style={{width: 76, height: 40, position: 'relative'}}>
+          <div style={{left: 16.51, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Month</div>
+        </div>
+        <div style={{width: 40, height: 40, position: 'relative', overflow: 'hidden'}}>
+          <div style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', opacity: 0.10, background: '#8181A5', borderRadius: 6}} />
+          <div style={{left: 11, top: 11, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+      <div style={{width: 65.57, left: 0, top: 7, position: 'absolute', color: '#1C1D21', fontSize: 18, fontFamily: 'Lato', fontWeight: '700', lineHeight: 27, wordWrap: 'break-word'}}>Orders</div>
+    </div>
+    <div style={{width: 224.83, height: 1, left: 32.63, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 447.27, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 101.91, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 516.55, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 171.18, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 584.82, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 239.45, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 654.09, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 308.73, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 378, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 224.83, height: 1, left: 723.37, top: 319.33, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 756, height: 228, left: 1.01, top: 88.50, position: 'absolute'}} />
+    <div style={{width: 756, height: 228, left: 1.01, top: 88.50, position: 'absolute', background: 'black'}} />
+    <div style={{width: 1211.99, height: 176, left: 896.91, top: 328.28, position: 'absolute', transform: 'rotate(180deg)', transformOrigin: 'top left', opacity: 0.55, background: 'white'}} />
+    <div style={{width: 1211.99, height: 176, left: 896.91, top: 328.28, position: 'absolute', transform: 'rotate(180deg)', transformOrigin: 'top left', opacity: 0.15, background: 'linear-gradient(180deg, #5E81F4 0%, white 100%)'}} />
+    <div style={{width: 1211.99, height: 144, left: 896.91, top: 296.28, position: 'absolute', transform: 'rotate(180deg)', transformOrigin: 'top left', outline: '2px #5E81F4 solid', outlineOffset: '-1px'}} />
+    <div style={{width: 1212.99, height: 207, left: -315.07, top: 120.28, position: 'absolute', opacity: 0.20, background: 'linear-gradient(180deg, #8AF1B9 0%, white 100%)'}} />
+    <div style={{width: 1212.99, height: 184, left: -315.07, top: 119.28, position: 'absolute', outline: '2px #8AF1B9 solid', outlineOffset: '-1px'}} />
+    <div style={{width: 135, height: 60, left: 352.32, top: 130, position: 'absolute'}}>
+      <div style={{width: 18.12, height: 18, left: 0, top: 10, position: 'absolute', background: 'white', boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.13)'}} />
+      <div style={{width: 18.12, height: 18, left: 0, top: 10, position: 'absolute', opacity: 0.54, background: '#8AF1B9'}} />
+      <div style={{width: 10.07, height: 10, left: 4.03, top: 14, position: 'absolute', background: '#8AF1B9'}} />
+      <div style={{left: 44.29, top: 7, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>June 16</div>
+      <div style={{left: 44.29, top: 29, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>$48.200</div>
+    </div>
+    <div style={{width: 757, height: 30, left: 0, top: 330, position: 'absolute', background: 'white'}} />
+    <div style={{left: 29, top: 333.50, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Jan</div>
+    <div style={{left: 91.26, top: 333.50, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Feb</div>
+    <div style={{left: 158.58, top: 333.50, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Mar</div>
+    <div style={{left: 226.89, top: 333.50, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Apr</div>
+    <div style={{left: 297.20, top: 333.50, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Jun</div>
+    <div style={{left: 368.52, top: 333.50, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Jul</div>
+    <div style={{left: 433.84, top: 333.50, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Aug</div>
+    <div style={{left: 504.16, top: 333.50, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Sep</div>
+    <div style={{left: 573.47, top: 333.50, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Oct</div>
+    <div style={{left: 639.79, top: 333.50, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Nov</div>
+    <div style={{left: 703.14, top: 333.50, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Dec</div>
+  </div>
+  <div style={{width: 365, height: 380, left: 1286, top: 210, position: 'absolute'}}>
+    <div style={{width: 363.99, height: 380, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 12, outline: '1px #F0F0F3 solid'}} />
+    <div style={{width: 217.58, height: 1.01, left: 33.27, top: 317.58, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 217.58, height: 1.01, left: 107.89, top: 317.58, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 217.58, height: 1.01, left: 182.50, top: 317.58, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 217.58, height: 1.01, left: 257.11, top: 317.58, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 217.58, height: 1.01, left: 331.73, top: 317.58, position: 'absolute', transform: 'rotate(-90deg)', transformOrigin: 'top left', outline: '1px #EEEEEE solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 181.49, height: 259, left: 1.01, top: 67.50, position: 'absolute'}} />
+    <div style={{width: 181.49, height: 259, left: 1.01, top: 67.50, position: 'absolute', background: 'black'}} />
+    <div style={{width: 1042.57, height: 197, left: -270.22, top: 129.50, position: 'absolute', opacity: 0.20, background: 'linear-gradient(180deg, #9698D6 0%, white 100%)'}} />
+    <div style={{width: 1042.57, height: 158, left: -270.22, top: 128.50, position: 'absolute', outline: '2px #9698D6 solid', outlineOffset: '-1px'}} />
+    <div style={{width: 181.49, height: 259, left: 182.50, top: 67.50, position: 'absolute'}} />
+    <div style={{width: 181.49, height: 259, left: 182.50, top: 67.50, position: 'absolute', background: 'black'}} />
+    <div style={{width: 1042.57, height: 197, left: -270.22, top: 129.50, position: 'absolute', opacity: 0.20, background: 'linear-gradient(180deg, #9698D6 0%, white 100%)'}} />
+    <div style={{width: 1042.57, height: 158, left: -270.22, top: 128.50, position: 'absolute', outline: '2px #9698D6 solid', outlineOffset: '-1px'}} />
+    <div style={{width: 18, height: 18, left: 174, top: 264, position: 'absolute', background: 'white', boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.13)'}} />
+    <div style={{width: 18, height: 18, left: 174, top: 264, position: 'absolute', opacity: 0.54, background: '#9698D6'}} />
+    <div style={{width: 10, height: 10, left: 178, top: 268, position: 'absolute', background: '#9698D6'}} />
+    <div style={{width: 306.52, height: 21, left: 29.24, top: 333, position: 'absolute'}}>
+      <div style={{left: 0, top: 0, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Jan</div>
+      <div style={{left: 67.56, top: 0, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Feb</div>
+      <div style={{left: 142.17, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Mar</div>
+      <div style={{left: 215.77, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Apr</div>
+      <div style={{left: 284.34, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Jun</div>
+    </div>
+    <div style={{width: 312.57, height: 40, left: 27.22, top: 21, position: 'absolute'}}>
+      <div style={{width: 40, height: 40, left: 273, top: 0, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', overflow: 'hidden'}}>
+          <div style={{width: 40, height: 40, left: 0, top: 0, position: 'absolute', opacity: 0.10, background: '#8181A5', borderRadius: 6}} />
+          <div style={{left: 11, top: 11, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+      <div style={{left: 0, top: 7, position: 'absolute', color: '#1C1D21', fontSize: 18, fontFamily: 'Lato', fontWeight: '700', lineHeight: 27, wordWrap: 'break-word'}}>Planned Income</div>
+    </div>
+  </div>
+  <div style={{width: 1209, height: 84, left: 471, top: 0, position: 'absolute'}}>
+    <div style={{width: 36, height: 36, left: 28, top: 24, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{width: 36, height: 36, left: 0, top: 0, position: 'absolute', background: '#F0F0F3', borderRadius: 6}} />
+      <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 36, height: 36, left: 1145, top: 24, position: 'absolute'}}>
+      <div style={{width: 36, height: 36, left: 0, top: 0, position: 'absolute', background: '#F0F0F3', borderRadius: 6}} />
+      <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 36, height: 36, left: 1103, top: 24, position: 'absolute'}}>
+      <div style={{width: 36, height: 36, left: 0, top: 0, position: 'absolute', background: '#F0F0F3', borderRadius: 6}} />
+      <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{left: 84, top: 25, position: 'absolute', color: '#1C1D21', fontSize: 20, fontFamily: 'Lato', fontWeight: '700', lineHeight: 32, wordWrap: 'break-word'}}>Dashboard</div>
+  </div>
+  <div style={{width: 84, height: 1020, left: 0, top: 0.50, position: 'absolute'}}>
+    <div style={{width: 84, height: 1020, left: 0, top: 0, position: 'absolute', background: 'white'}} />
+    <div style={{width: 2, height: 1021, left: 82.50, top: 0, position: 'absolute', outline: '1px #F0F0F3 solid', outlineOffset: '-0.50px'}} />
+    <img style={{width: 30, height: 30, left: 27, top: 963, position: 'absolute', borderRadius: 5}} src="https://placehold.co/30x30" />
+    <div style={{width: 8, height: 8, left: 52, top: 987, position: 'absolute', background: '#7CE7AC', outline: '2px white solid'}} />
+    <div style={{width: 83, height: 64, left: 0, top: 844, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 780, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 652, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 716, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{width: 83, height: 64, left: 0, top: 0, position: 'absolute'}}>
+        <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+      </div>
+      <div style={{width: 9.88, height: 10, left: 44.46, top: 22, position: 'absolute', background: '#FF808B', outline: '2px white solid', outlineOffset: '-1px'}} />
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 588, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 524, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 460, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{width: 83, height: 64, left: 0, top: 0, position: 'absolute'}}>
+        <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+      </div>
+      <div style={{width: 9.88, height: 10, left: 49.40, top: 22, position: 'absolute', background: '#8AF1B9', outline: '2px white solid', outlineOffset: '-1px'}} />
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 396, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 332, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 268, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 204, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 140, position: 'absolute'}}>
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{width: 83, height: 64, left: 0, top: 76, position: 'absolute'}}>
+      <div style={{width: 48, height: 48, left: 18, top: 8, position: 'absolute', background: 'linear-gradient(0deg, rgba(94, 129, 244, 0.10) 0%, rgba(94, 129, 244, 0.10) 100%), white', borderRadius: 4}} />
+      <div style={{left: 31, top: 21, position: 'absolute', textAlign: 'center', color: '#5E81F4', fontSize: 22, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+      <div style={{width: 2, height: 48, left: 81, top: 8, position: 'absolute', background: '#5E81F4', borderRadius: 1}} />
+    </div>
+    <div style={{width: 30, height: 30, left: 28, top: 26, position: 'absolute'}}>
+      <div style={{width: 30, height: 30, left: 0, top: 0, position: 'absolute', overflow: 'hidden'}}>
+        <div style={{width: 30, height: 30.02, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(180deg, #5E81F4 0%, #5E81F4 100%)'}} />
+        <div style={{width: 13.75, height: 17.81, left: 8.12, top: 6.13, position: 'absolute', background: 'white'}} />
+      </div>
+    </div>
+  </div>
+  <div style={{width: 389, height: 1021, left: 84, top: 0, position: 'absolute', overflow: 'hidden'}}>
+    <div style={{width: 387, height: 1020, left: 0, top: 0.50, position: 'absolute', background: 'white'}} />
+    <div style={{width: 2, height: 1021, left: 386.25, top: 0, position: 'absolute', outline: '1px #F0F0F3 solid', outlineOffset: '-0.50px'}} />
+    <div style={{width: 330, height: 230, left: 28, top: 763, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{left: 2, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 16, fontFamily: 'Lato', fontWeight: '700', lineHeight: 24, wordWrap: 'break-word'}}>Upcoming events</div>
+      <div style={{width: 330, height: 90, left: 0, top: 40, position: 'absolute'}}>
+        <div style={{width: 330, height: 90, left: 0, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 12}} />
+        <div style={{left: 300, top: 16, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        <div style={{width: 208, left: 21, top: 56, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '400', lineHeight: 18, wordWrap: 'break-word'}}>Tell how to boost website traffic</div>
+        <div style={{width: 248, left: 22, top: 36, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Meeting with a client</div>
+        <div style={{left: 22, top: 14, position: 'absolute', justifyContent: 'flex-start', alignItems: 'center', gap: 6, display: 'inline-flex'}}>
+          <div style={{width: 8, height: 8, background: '#5E81F4'}} />
+          <div style={{color: '#5E81F4', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>05:48AM</div>
+        </div>
+      </div>
+      <div style={{width: 330, height: 90, left: 0, top: 140, position: 'absolute'}}>
+        <div style={{width: 330, height: 90, left: 0, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 12}} />
+        <div style={{left: 300, top: 16, position: 'absolute', textAlign: 'center', color: '#8181A5', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        <div style={{width: 208, left: 21, top: 56, position: 'absolute', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '400', lineHeight: 18, wordWrap: 'break-word'}}>Business Cards Does Your Business </div>
+        <div style={{width: 248, left: 22, top: 36, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>New project discussion</div>
+        <div style={{left: 22, top: 14, position: 'absolute', justifyContent: 'flex-start', alignItems: 'center', gap: 6, display: 'inline-flex'}}>
+          <div style={{width: 8, height: 8, background: '#F4BE5E'}} />
+          <div style={{color: '#5E81F4', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>10:28AM</div>
+        </div>
+      </div>
+    </div>
+    <div style={{width: 170, height: 176, left: 28, top: 85, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{left: 0, top: 110, position: 'absolute', color: '#1C1D21', fontSize: 22, fontFamily: 'Lato', fontWeight: '300', letterSpacing: 0.40, wordWrap: 'break-word'}}>Welcome,</div>
+      <div style={{left: 0, top: 138, position: 'absolute', color: '#1C1D21', fontSize: 26, fontFamily: 'Lato', fontWeight: '700', lineHeight: 38, wordWrap: 'break-word'}}>CRAFTUI</div>
+      <div style={{width: 98, height: 98, left: 0, top: 0, position: 'absolute'}}>
+        <div style={{width: 98, height: 98, left: 0, top: 0, position: 'absolute', overflow: 'hidden'}}>
+          <div style={{width: 98, height: 98.07, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(180deg, #5E81F4 0%, #5E81F4 100%)'}} />
+          <div style={{width: 44.93, height: 58.19, left: 26.53, top: 20.01, position: 'absolute', background: 'white'}} />
+        </div>
+      </div>
+    </div>
+    <div style={{width: 330, height: 437, left: 28, top: 294, position: 'absolute', overflow: 'hidden'}}>
+      <div style={{left: 0, top: 0, position: 'absolute', color: '#1C1D21', fontSize: 16, fontFamily: 'Lato', fontWeight: '700', lineHeight: 24, wordWrap: 'break-word'}}>Latest updates</div>
+      <div style={{width: 330, height: 72, left: 0, top: 42, position: 'absolute'}}>
+        <div style={{width: 327.92, height: 72, left: 1.04, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 10}} />
+        <div style={{left: 256, top: 27, position: 'absolute', textAlign: 'right', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>+$890.00</div>
+        <div style={{left: 70, top: 25, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Item sale #340-00</div>
+        <div style={{width: 38, height: 38, left: 19, top: 17, position: 'absolute'}}>
+          <div style={{width: 38, height: 38, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(94, 129, 244, 0.10) 0%, rgba(94, 129, 244, 0.10) 100%), white', borderRadius: 8}} />
+          <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#5E81F4', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+      <div style={{width: 330, height: 72, left: 0, top: 123, position: 'absolute'}}>
+        <div style={{width: 327.92, height: 72, left: 1.04, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 10}} />
+        <div style={{left: 271, top: 27, position: 'absolute', textAlign: 'right', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>30 min</div>
+        <div style={{left: 70, top: 25, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>New lead created</div>
+        <div style={{width: 38, height: 38, left: 19, top: 17, position: 'absolute'}}>
+          <div style={{width: 38, height: 38, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(94, 129, 244, 0.10) 0%, rgba(94, 129, 244, 0.10) 100%), white', borderRadius: 8}} />
+          <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#5E81F4', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+      <div style={{width: 330, height: 72, left: 0, top: 204, position: 'absolute'}}>
+        <div style={{width: 327.92, height: 72, left: 1.04, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 10}} />
+        <div style={{left: 256, top: 27, position: 'absolute', textAlign: 'right', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>+$940.00</div>
+        <div style={{left: 70, top: 25, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Item sale #360-20</div>
+        <div style={{width: 38, height: 38, left: 19, top: 17, position: 'absolute'}}>
+          <div style={{width: 38, height: 38, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(94, 129, 244, 0.10) 0%, rgba(94, 129, 244, 0.10) 100%), white', borderRadius: 8}} />
+          <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#5E81F4', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+      <div style={{width: 330, height: 72, left: 0, top: 285, position: 'absolute'}}>
+        <div style={{width: 327.92, height: 72, left: 1.04, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 10}} />
+        <div style={{left: 271, top: 27, position: 'absolute', textAlign: 'right', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>45 min</div>
+        <div style={{left: 70, top: 25, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Items upload complete</div>
+        <div style={{width: 38, height: 38, left: 19, top: 17, position: 'absolute'}}>
+          <div style={{width: 38, height: 38, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(94, 129, 244, 0.10) 0%, rgba(94, 129, 244, 0.10) 100%), white', borderRadius: 8}} />
+          <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#5E81F4', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+      <div style={{width: 330, height: 72, left: 0, top: 365, position: 'absolute'}}>
+        <div style={{width: 327.92, height: 72, left: 1.04, top: 0, position: 'absolute', background: 'rgba(245, 245, 250, 0.40)', borderRadius: 10}} />
+        <div style={{left: 281, top: 27, position: 'absolute', textAlign: 'right', color: '#8181A5', fontSize: 12, fontFamily: 'Lato', fontWeight: '700', lineHeight: 18, wordWrap: 'break-word'}}>2 hrs</div>
+        <div style={{left: 70, top: 25, position: 'absolute', color: '#1C1D21', fontSize: 14, fontFamily: 'Lato', fontWeight: '700', lineHeight: 21, wordWrap: 'break-word'}}>Email notifications sent</div>
+        <div style={{width: 38, height: 38, left: 19, top: 17, position: 'absolute'}}>
+          <div style={{width: 38, height: 38, left: 0, top: 0, position: 'absolute', background: 'linear-gradient(0deg, rgba(94, 129, 244, 0.10) 0%, rgba(94, 129, 244, 0.10) 100%), white', borderRadius: 8}} />
+          <div style={{left: 10, top: 10, position: 'absolute', textAlign: 'center', color: '#5E81F4', fontSize: 18, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style={{width: 365, height: 98, left: 500, top: 84, position: 'absolute'}}>
+    <div style={{width: 365, height: 98, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 12}} />
+    <div style={{left: 271, top: 22, position: 'absolute', justifyContent: 'flex-end', alignItems: 'center', gap: 4, display: 'inline-flex'}}>
+      <div style={{textAlign: 'right', color: '#1C1D21', fontSize: 20, fontFamily: 'Lato', fontWeight: '700', lineHeight: 32, wordWrap: 'break-word'}}>1.345</div>
+      <div style={{textAlign: 'center', color: '#7CE7AC', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{left: 26, top: 38, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Week comparison</div>
+    <div style={{left: 26, top: 14, position: 'absolute', color: '#1C1D21', fontSize: 18, fontFamily: 'Lato', fontWeight: '700', lineHeight: 27, wordWrap: 'break-word'}}>Sales</div>
+    <div style={{width: 316, height: 4, left: 25.50, top: 74, position: 'absolute'}}>
+      <div style={{width: 316, height: 4, left: 0, top: 0, position: 'absolute', background: '#F0F0F3', borderRadius: 3}} />
+      <div style={{width: 263.84, height: 4, left: 0, top: 0, position: 'absolute', background: '#7CE7AC', borderRadius: 3}} />
+    </div>
+  </div>
+  <div style={{width: 365, height: 98, left: 893, top: 84, position: 'absolute'}}>
+    <div style={{width: 365, height: 98, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 12}} />
+    <div style={{left: 271, top: 22, position: 'absolute', justifyContent: 'flex-end', alignItems: 'center', gap: 4, display: 'inline-flex'}}>
+      <div style={{textAlign: 'right', color: '#1C1D21', fontSize: 20, fontFamily: 'Lato', fontWeight: '700', lineHeight: 32, wordWrap: 'break-word'}}>3.820</div>
+      <div style={{textAlign: 'center', color: '#7CE7AC', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{left: 26, top: 38, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Month comparison</div>
+    <div style={{left: 26, top: 14, position: 'absolute', color: '#1C1D21', fontSize: 18, fontFamily: 'Lato', fontWeight: '700', lineHeight: 27, wordWrap: 'break-word'}}>Leads</div>
+    <div style={{width: 316, height: 4, left: 25.50, top: 74, position: 'absolute'}}>
+      <div style={{width: 316, height: 4, left: 0, top: 0, position: 'absolute', background: '#F5F5FA', borderRadius: 3}} />
+      <div style={{width: 251.57, height: 4, left: 0, top: 0, position: 'absolute', background: '#5E81F4', borderRadius: 3}} />
+    </div>
+  </div>
+  <div style={{width: 365, height: 98, left: 1286, top: 84, position: 'absolute'}}>
+    <div style={{width: 365, height: 98, left: 0, top: 0, position: 'absolute', background: 'white', borderRadius: 12}} />
+    <div style={{left: 248, top: 22, position: 'absolute', justifyContent: 'flex-end', alignItems: 'center', gap: 4, display: 'inline-flex'}}>
+      <div style={{textAlign: 'right', color: '#1C1D21', fontSize: 20, fontFamily: 'Lato', fontWeight: '700', lineHeight: 32, wordWrap: 'break-word'}}>$690.00</div>
+      <div style={{textAlign: 'center', color: '#7CE7AC', fontSize: 16, fontFamily: 'la-solid-900', fontWeight: '400', wordWrap: 'break-word'}}></div>
+    </div>
+    <div style={{left: 26, top: 38, position: 'absolute', color: '#8181A5', fontSize: 14, fontFamily: 'Lato', fontWeight: '400', lineHeight: 21, wordWrap: 'break-word'}}>Week comparison</div>
+    <div style={{left: 26, top: 14, position: 'absolute', color: '#1C1D21', fontSize: 18, fontFamily: 'Lato', fontWeight: '700', lineHeight: 27, wordWrap: 'break-word'}}>Income</div>
+    <div style={{width: 316, height: 4, left: 25.50, top: 74, position: 'absolute'}}>
+      <div style={{width: 316, height: 4, left: 0, top: 0, position: 'absolute', background: '#F5F5FA', borderRadius: 3}} />
+      <div style={{width: 70.56, height: 4, left: 0, top: 0, position: 'absolute', background: '#FF808B', borderRadius: 3}} />
+    </div>
+  </div>
+</div>
+"""
+
+and I want that only these gmails can access admin things on website
+karn.abhinav00@gmail.com
+abhinavytagain666@gmail.com
+inkly412@gmail.com
+aryavrat.studios@gmail.com
+
+and they can add others also.
+and except these every1 other have client only side no admin things.
+
+Continue
 
 After all this push it to github repo - https://github.com/aryavratstudios/aryavratstudios-portfolio

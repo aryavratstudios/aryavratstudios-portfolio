@@ -54,7 +54,7 @@ export default function DashboardPage() {
                     <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Welcome Back</h1>
                     <p className="text-zinc-400 text-sm">Here's an overview of your active creative projects.</p>
                 </div>
-                <Button asChild className="rounded-full h-11 px-7 font-semibold shadow-glow-primary hover:scale-105 transition-all bg-primary text-white border-none">
+                <Button asChild className="rounded-full h-11 px-7 font-semibold shadow-glow-primary hover:scale-105 transition-all bg-primary text-black border-none">
                     <Link href="/dashboard/new">
                         <PlusCircle className="mr-2 h-5 w-5" />
                         START NEW PROJECT

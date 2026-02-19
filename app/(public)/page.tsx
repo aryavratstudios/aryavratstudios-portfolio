@@ -103,7 +103,7 @@ export default function HomePage() {
                         transition={{ delay: 0.3, duration: 0.8 }}
                         className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
                     >
-                        <Button asChild size="lg" className="h-12 px-8 text-base font-semibold shadow-glow-primary hover:scale-105 transition-all duration-300 bg-primary text-white border-none">
+                        <Button asChild size="lg" className="h-12 px-8 text-base font-semibold shadow-glow-primary hover:scale-105 transition-all duration-300 bg-primary text-black border-none">
                             <Link href="/login">
                                 Start Project <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
@@ -308,7 +308,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 -z-10"></div>
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
                 <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px] animate-pulse-slow delay-700"></div>
-                
+
                 <div className="container mx-auto px-4">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
@@ -318,7 +318,7 @@ export default function HomePage() {
                         className="glass-card p-12 md:p-20 rounded-[3rem] border border-primary/20 text-center relative overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 -z-10"></div>
-                        
+
                         <motion.div
                             initial={{ scale: 0 }}
                             whileInView={{ scale: 1 }}
@@ -328,16 +328,16 @@ export default function HomePage() {
                         >
                             <Logo size={80} showGlow />
                         </motion.div>
-                        
+
                         <h2 className="text-4xl md:text-6xl font-display tracking-tight mb-6">
                             <span className="font-light text-white/70">Ready to</span>{" "}
                             <span className="font-black text-primary glow-text">Start?</span>
                         </h2>
-                        
+
                         <p className="text-zinc-400 max-w-2xl mx-auto text-lg md:text-xl mb-10 leading-relaxed">
                             Join hundreds of satisfied clients who have transformed their digital presence with Aryavrat. Let's build something extraordinary together.
                         </p>
-                        
+
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -345,7 +345,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                             className="flex flex-col sm:flex-row gap-4 justify-center"
                         >
-                            <Button asChild size="lg" className="h-14 px-10 text-lg font-bold shadow-glow-primary hover:scale-105 transition-all duration-300 bg-primary text-white border-none rounded-full">
+                            <Button asChild size="lg" className="h-14 px-10 text-lg font-bold shadow-glow-primary hover:scale-105 transition-all duration-300 bg-primary text-black border-none rounded-full">
                                 <Link href="/dashboard/new">
                                     Start Your Project <ArrowRight className="ml-2 h-5 w-5" />
                                 </Link>
@@ -356,7 +356,7 @@ export default function HomePage() {
                                 </Link>
                             </Button>
                         </motion.div>
-                        
+
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}

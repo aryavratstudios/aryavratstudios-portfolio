@@ -53,7 +53,7 @@ export default function Navbar() {
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 flex justify-center px-4 py-3 transition-all duration-300",
+                "sticky top-0 z-50 flex justify-center px-4 py-3 transition-all duration-300",
                 isScrolled ? "py-2" : "py-4"
             )}
         >
@@ -62,8 +62,8 @@ export default function Navbar() {
                 animate={{ scale: 1, opacity: 1 }}
                 className={cn(
                     "w-full max-w-6xl rounded-2xl flex items-center justify-between px-5 py-3 transition-all duration-300 backdrop-blur-xl border",
-                    isScrolled 
-                        ? "bg-black/90 border-white/10 shadow-xl shadow-black/30" 
+                    isScrolled
+                        ? "bg-black/90 border-white/10 shadow-xl shadow-black/30"
                         : "bg-black/80 border-white/10 shadow-lg shadow-black/20"
                 )}
             >
@@ -164,7 +164,7 @@ export default function Navbar() {
                             <Link href="/login">Login</Link>
                         </Button>
                     )}
-                    
+
                     <Button asChild className="rounded-xl px-4 sm:px-5 text-sm font-semibold bg-primary text-black hover:bg-primary/90 shadow-lg shadow-primary/20">
                         <Link href="/dashboard/new">
                             <span className="hidden sm:inline">Start Project</span>

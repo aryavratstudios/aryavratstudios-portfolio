@@ -65,7 +65,7 @@ export function MobileNav({ role }: MobileNavProps) {
                                         className={cn(
                                             "flex items-center gap-4 px-5 py-4 rounded-2xl transition-all",
                                             pathname === item.href
-                                                ? "bg-primary text-white font-bold shadow-glow-primary"
+                                                ? "bg-primary text-black font-bold shadow-glow-primary"
                                                 : "text-zinc-500 hover:text-foreground hover:bg-foreground/5"
                                         )}
                                     >
@@ -78,22 +78,32 @@ export function MobileNav({ role }: MobileNavProps) {
                             {role === 'admin' && (
                                 <div className="space-y-2">
                                     <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.3em] px-4 mb-2">Administration</div>
-                                    {adminItems.map((item) => (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href}
-                                            onClick={() => setIsOpen(false)}
-                                            className={cn(
-                                                "flex items-center gap-4 px-5 py-4 rounded-2xl transition-all",
-                                                pathname === item.href
-                                                    ? "bg-primary text-white font-bold shadow-glow-primary"
-                                                    : "text-zinc-500 hover:text-foreground hover:bg-foreground/5"
-                                            )}
-                                        >
-                                            <item.icon className="h-5 w-5" />
-                                            <span className="text-sm font-medium tracking-tight">{item.label}</span>
-                                        </Link>
-                                    ))}
+                                    <Link
+                                        href="/admin"
+                                        onClick={() => setIsOpen(false)}
+                                        className={cn(
+                                            "flex items-center gap-4 px-5 py-4 rounded-2xl transition-all",
+                                            pathname === "/admin"
+                                                ? "bg-primary text-black font-bold shadow-glow-primary"
+                                                : "text-zinc-500 hover:text-foreground hover:bg-foreground/5"
+                                        )}
+                                    >
+                                        <Shield className="h-5 w-5" />
+                                        <span className="text-sm font-medium tracking-tight">Admin Dashboard</span>
+                                    </Link>
+                                    <Link
+                                        href="/admin/invoices"
+                                        onClick={() => setIsOpen(false)}
+                                        className={cn(
+                                            "flex items-center gap-4 px-5 py-4 rounded-2xl transition-all",
+                                            pathname === "/admin/invoices"
+                                                ? "bg-primary text-black font-bold shadow-glow-primary"
+                                                : "text-zinc-500 hover:text-foreground hover:bg-foreground/5"
+                                        )}
+                                    >
+                                        <Briefcase className="h-5 w-5" />
+                                        <span className="text-sm font-medium tracking-tight">Invoices</span>
+                                    </Link>
                                 </div>
                             )}
 

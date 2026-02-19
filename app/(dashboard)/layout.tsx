@@ -1,8 +1,10 @@
 import { Sidebar } from "@/components/sidebar";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { MobileNav } from "@/components/mobile-nav";
 import { AiAssistant } from "@/components/ai-assistant";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { isSuperAdmin } from "@/lib/admin-auth";
 
 export default async function DashboardLayout({
     children,
@@ -12,11 +14,14 @@ export default async function DashboardLayout({
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
+    if (!user || !user.email) {
         redirect("/login");
     }
 
-    // Fetch profile to get role for sidebar
+    // Authorization Check
+    const isWhitelisted = isSuperAdmin(user.email);
+
+    // Fetch profile to get role (fallback/synergy)
     const { data: profile } = await supabase
         .from('profiles')
         .select('role')
@@ -24,10 +29,11 @@ export default async function DashboardLayout({
         .single();
 
     const role = profile?.role || 'client';
+    const isAdmin = role === 'admin' || isWhitelisted;
 
     return (
         <div className="flex min-h-screen bg-black overflow-hidden selection:bg-primary selection:text-black">
-            <Sidebar role={role} />
+            {isAdmin ? <AdminSidebar /> : <Sidebar role={role} />}
             <MobileNav role={role} />
             <main className="flex-1 overflow-y-auto relative custom-scrollbar pt-20 md:pt-0">
                 {/* Ambient Background */}

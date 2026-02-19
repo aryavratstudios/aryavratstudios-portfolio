@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AiAssistant } from "@/components/ai-assistant";
 import MouseFollower from "@/components/mouse-follower";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 
 export const metadata: Metadata = {
   title: "AryavratHQ | Premium Digital Solutions",
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-      <body className={`${inter.variable} font-inter antialiased bg-black text-white selection:bg-primary selection:text-black`}>
+      <body className={`${inter.variable} ${manrope.variable} font-sans antialiased bg-black text-white selection:bg-primary selection:text-black`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

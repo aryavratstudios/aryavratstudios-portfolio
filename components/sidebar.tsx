@@ -5,19 +5,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     LayoutDashboard,
-    PlusCircle,
-    List,
-    Shield,
-    Briefcase,
-    LogOut,
-    ChevronRight,
-    ChevronLeft,
-    Star
+    Activity,
+    BarChart3,
+    PieChart,
+    Receipt,
+    Wallet,
+    Bell,
+    Plus,
+    MessageSquare,
+    User,
+    LogOut
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Logo } from "./logo";
 
 interface SidebarProps {
     role: string;
@@ -25,129 +24,123 @@ interface SidebarProps {
 
 export function Sidebar({ role }: SidebarProps) {
     const pathname = usePathname();
-    const [isCollapsed, setIsCollapsed] = useState(false);
-
-    const menuItems = [
-        { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-        ...(role === 'client' ? [
-            { href: "/dashboard/new", label: "New Order", icon: PlusCircle },
-            { href: "/dashboard/orders", label: "My Orders", icon: List },
-        ] : []),
-    ];
-
-    const adminItems = [
-        { href: "/admin", label: "All Projects", icon: Shield },
-        { href: "/work", label: "Portfolio", icon: Briefcase },
-    ];
 
     return (
-        <motion.aside
-            animate={{ width: isCollapsed ? 80 : 288 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="hidden md:flex flex-col border-r border-white/5 bg-zinc-950 h-screen sticky top-0 z-40 relative"
-        >
-            <button
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                className="absolute -right-3 top-20 bg-primary text-white p-1.5 rounded-full shadow-glow-primary z-50 hover:bg-accent hover:scale-110 transition-all"
-            >
-                {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-            </button>
-
-            <div className={cn("p-8 transition-all h-24 flex items-center overflow-hidden", isCollapsed && "px-4 justify-center")}>
-                <Link href="/" className="flex items-center gap-3">
-                    <Logo size={isCollapsed ? 32 : 44} showGlow={!isCollapsed} />
-                    {!isCollapsed && (
-                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col">
-                            <span className="text-sm font-black tracking-tighter text-foreground uppercase">AryavratHQ</span>
-                            <span className="text-[10px] uppercase tracking-[0.2em] font-black text-primary">Studios</span>
-                        </motion.div>
-                    )}
-                </Link>
+        <aside className="w-64 h-screen sticky top-0 bg-stone-950/60 backdrop-blur-[80px] border-r border-stone-800 flex flex-col justify-between py-6 z-40 hidden md:flex">
+            {/* Top Section: User Profile */}
+            <div className="px-6 flex items-center gap-4">
+                <div className="relative w-12 h-12">
+                    <div className="w-12 h-12 bg-red-200 rounded-full overflow-hidden">
+                        <img src="https://placehold.co/48x48" alt="Profile" className="object-cover" />
+                    </div>
+                    {/* Status Dots */}
+                    <div className="absolute -bottom-1 -right-1 flex gap-0.5">
+                        <div className="w-2.5 h-2.5 bg-red-500 rounded-full border border-black" />
+                        <div className="w-2.5 h-2.5 bg-amber-400 rounded-full border border-black" />
+                        <div className="w-2.5 h-2.5 bg-lime-600 rounded-full border border-black" />
+                    </div>
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-white/40 text-[10px] uppercase font-bold tracking-wider">Product Designer</span>
+                    <span className="text-white font-bold text-sm">Andrew Smith</span>
+                </div>
             </div>
 
-            <div className="flex-1 px-4 space-y-8 overflow-y-auto custom-scrollbar">
-                <div className="space-y-1">
-                    <div className={cn("text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-4 px-4", isCollapsed && "text-center px-0")}>
-                        {isCollapsed ? "•••" : "Workspace"}
+            {/* Navigation Section */}
+            <div className="flex-1 px-4 mt-10 space-y-8 overflow-y-auto custom-scrollbar">
+
+                {/* Main Menu */}
+                <div className="space-y-2">
+                    <div className="px-4 text-white/30 text-xs font-bold uppercase tracking-wider mb-2">Main</div>
+
+                    <Link href="/dashboard" className={cn(
+                        "flex items-center gap-3 px-4 py-3 rounded-xl transition-all border border-transparent",
+                        pathname === "/dashboard"
+                            ? "bg-white/5 border-stone-700 shadow-[0_0_16px_rgba(255,255,255,0.1)] text-white"
+                            : "text-white/60 hover:text-white hover:bg-white/5"
+                    )}>
+                        <LayoutDashboard className="w-5 h-5" />
+                        <span className="text-sm font-medium">Dashboard</span>
+                    </Link>
+
+                    {/* Collapsible Stats Section (Visual only for now) */}
+                    <div className="pl-4 space-y-1 mt-2">
+                        <div className="flex items-center gap-3 px-4 py-2 text-white/60 text-xs hover:text-white cursor-pointer">
+                            <Activity className="w-4 h-4" /> Activity
+                        </div>
+                        <div className="flex items-center gap-3 px-4 py-2 text-white/60 text-xs hover:text-white cursor-pointer">
+                            <BarChart3 className="w-4 h-4" /> Traffic
+                        </div>
+                        <div className={cn(
+                            "flex items-center gap-3 px-4 py-2 rounded-lg transition-all",
+                            pathname === "/stats" ? "bg-white/5 text-white shadow-[0_0_16px_rgba(255,255,255,0.1)]" : "text-white/60 hover:text-white"
+                        )}>
+                            <PieChart className="w-4 h-4" /> Statistic
+                        </div>
                     </div>
-                    {menuItems.map((item) => (
-                        <NavItem
-                            key={item.href}
-                            item={item}
-                            active={pathname === item.href}
-                            isCollapsed={isCollapsed}
-                        />
-                    ))}
+
+                    <Link href="/dashboard/invoices" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all">
+                        <Receipt className="w-5 h-5" />
+                        <span className="text-sm font-medium">Invoices</span>
+                    </Link>
+                    <Link href="/dashboard/wallet" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all">
+                        <Wallet className="w-5 h-5" />
+                        <span className="text-sm font-medium">Wallet</span>
+                    </Link>
+                    <Link href="/dashboard/notifications" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all">
+                        <Bell className="w-5 h-5" />
+                        <span className="text-sm font-medium">Notification</span>
+                    </Link>
                 </div>
 
-                {['admin', 'designer', 'manager'].includes(role) && (
-                    <div className="space-y-1">
-                        <div className={cn("text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-4 px-4", isCollapsed && "text-center px-0")}>
-                            {isCollapsed ? "•••" : "Administration"}
-                        </div>
-                        {adminItems.map((item) => (
-                            <NavItem
-                                key={item.href}
-                                item={item}
-                                active={pathname === item.href}
-                                isCollapsed={isCollapsed}
-                            />
-                        ))}
+                {/* Messages Section */}
+                <div className="space-y-2">
+                    <div className="px-4 flex items-center justify-between text-white/30 text-xs font-bold uppercase tracking-wider mb-2">
+                        <span>Messages</span>
+                        <MessageSquare className="w-4 h-4" />
                     </div>
-                )}
-            </div>
-
-            <div className="p-6 border-t border-white/5 space-y-4">
-                {!isCollapsed && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 rounded-2xl bg-primary/10 border border-primary/20">
-                        <div className="flex items-center gap-2 text-[10px] font-black tracking-[0.25em] text-primary mb-1 uppercase">
-                            <Star className="w-3.5 h-3.5 fill-primary shadow-glow-primary" />
-                            Elite Access
+                    {/* Placeholder Users */}
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-3 px-4 py-2 rounded-xl border border-stone-800/50 bg-stone-900/20">
+                            <div className="relative">
+                                <div className="w-8 h-8 rounded-full bg-red-200 overflow-hidden"><img src="https://placehold.co/32x32" /></div>
+                                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-neutral-400 rounded-full border-2 border-black"></div>
+                            </div>
+                            <span className="text-sm text-white/60 font-medium">Erik Gunsel</span>
                         </div>
-                        <p className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest leading-relaxed">Priority production queue active</p>
-                    </motion.div>
-                )}
+                        <div className="flex items-center gap-3 px-4 py-2 rounded-xl border border-stone-800/50 bg-stone-900/20">
+                            <div className="relative">
+                                <div className="w-8 h-8 rounded-full bg-orange-200 overflow-hidden"><img src="https://placehold.co/32x32" /></div>
+                                <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-stone-900 rounded-full border-2 border-black"></div>
+                            </div>
+                            <span className="text-sm text-white/60 font-medium">Emily Smith</span>
+                        </div>
+                    </div>
+                </div>
 
-                <form action="/auth/signout" method="post">
-                    <Button
-                        variant="ghost"
-                        className={cn(
-                            "w-full justify-start text-zinc-500 hover:text-accent hover:bg-accent/10 rounded-2xl group overflow-hidden border border-transparent hover:border-accent/20 transition-all",
-                            isCollapsed && "justify-center px-0"
-                        )}
-                        type="submit"
-                    >
-                        <LogOut className={cn("h-4 w-4 transition-transform group-hover:-translate-x-1", !isCollapsed && "mr-3")} />
-                        {!isCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] font-bold uppercase tracking-[0.2em]">Sign Out</motion.span>}
-                    </Button>
-                </form>
             </div>
-        </motion.aside>
-    );
-}
 
-function NavItem({ item, active, isCollapsed }: { item: any, active: boolean, isCollapsed: boolean }) {
-    return (
-        <Link
-            href={item.href}
-            title={isCollapsed ? item.label : ""}
-            className={cn(
-                "flex items-center group px-4 py-3 rounded-2xl transition-all duration-300 relative",
-                active
-                    ? "bg-primary text-white font-bold shadow-glow-primary"
-                    : "text-zinc-500 hover:text-foreground hover:bg-accent/10 hover:border-accent/20 border border-transparent",
-                isCollapsed && "justify-center px-0"
-            )}
-        >
-            <item.icon className={cn("h-5 w-5 shrink-0", active ? "text-black" : "text-zinc-500 group-hover:text-primary transition-colors", !isCollapsed && "mr-3")} />
-            {!isCollapsed && <span className="text-sm tracking-tight">{item.label}</span>}
+            {/* Bottom CTA Card */}
+            <div className="px-4 mb-6">
+                <div className="bg-rose-950/10 rounded-3xl p-5 border border-stone-800 shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-orange-500/10 to-transparent pointer-events-none" />
+                    <div className="relative z-10 flex flex-col gap-2 mb-4">
+                        <h4 className="text-white font-semibold leading-tight">Let's start!</h4>
+                        <p className="text-white/60 text-xs leading-relaxed">Creating or adding new tasks couldn't be easier</p>
+                    </div>
+                    <button className="w-full bg-orange-400 hover:bg-orange-500 text-white shadow-lg shadow-orange-500/20 rounded-xl py-2.5 flex items-center justify-center gap-2 transition-all active:scale-95">
+                        <Plus className="w-5 h-5 text-white" />
+                        <span className="text-sm font-semibold">Add New Task</span>
+                    </button>
+                </div>
+            </div>
 
-            {active && isCollapsed && (
-                <motion.div
-                    layoutId="collapsed-active"
-                    className="absolute left-0 w-1 h-6 bg-black rounded-r-full"
-                />
-            )}
-        </Link>
+            {/* Sign Out (Hidden but accessible) */}
+            <form action="/auth/signout" method="post" className="px-6">
+                <button type="submit" className="flex items-center gap-2 text-white/20 hover:text-red-400 text-xs font-bold uppercase tracking-wider transition-colors">
+                    <LogOut className="w-4 h-4" /> Sign Out
+                </button>
+            </form>
+        </aside>
     );
 }
