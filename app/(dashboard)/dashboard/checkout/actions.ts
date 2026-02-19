@@ -3,8 +3,17 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { createDiscordTicket } from "@/lib/discord";
+import { validatePrice, getBasePrice } from "@/lib/pricing";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function validateCoupon(code: string) {
+    // Rate limiting for coupon validation
+    const rateLimitKey = code; // Use coupon code as part of the key
+    const rateCheck = checkRateLimit(rateLimitKey, "coupon");
+    if (!rateCheck.allowed) {
+        return { success: false, message: "Too many validation attempts. Please wait." };
+    }
+    
     const supabase = await createClient();
     const { data: coupon, error } = await supabase
         .from("coupons")
@@ -27,8 +36,14 @@ export async function validateCoupon(code: string) {
 export async function completePayment(projectId: string, couponId?: string) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-
+    
     if (!user) throw new Error("Unauthorized");
+    
+    // Rate limiting for payments
+    const rateCheck = checkRateLimit(user.id, "payment");
+    if (!rateCheck.allowed) {
+        throw new Error("Too many payment attempts. Please wait before trying again.");
+    }
 
     // Safety check for profile (ensure FK doesn't fail)
     const { data: profile } = await supabase.from("profiles").select("id").eq("id", user.id).single();
@@ -45,7 +60,14 @@ export async function completePayment(projectId: string, couponId?: string) {
 
     if (fetchError || !project) throw new Error("Project not found");
 
-    let finalPrice = Number(project.price) || 35;
+    // SECURITY: Validate price server-side to prevent tampering
+    const priceValidation = validatePrice(project.service_type, Number(project.price) || 35);
+    if (!priceValidation.valid) {
+        throw new Error(priceValidation.message);
+    }
+
+    // Use base price as the authoritative price (not client-submitted)
+    let finalPrice = priceValidation.basePrice;
     let discountAmount = 0;
 
     if (couponId) {

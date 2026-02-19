@@ -144,6 +144,31 @@ create table public.portfolio (
   created_at timestamptz default now()
 );
 
+-- Audit logs table for tracking admin actions
+create table public.audit_logs (
+  id uuid default uuid_generate_v4() primary key,
+  admin_id uuid references public.profiles(id) on delete cascade,
+  action text not null,
+  target_id uuid,
+  details jsonb default '{}'::jsonb,
+  metadata jsonb default '{}'::jsonb,
+  ip_address text default 'unknown',
+  created_at timestamptz default now()
+);
+
+alter table public.audit_logs enable row level security;
+
+create policy "Admins can view audit logs" on public.audit_logs
+  for select using (
+    exists (
+      select 1 from public.profiles
+      where profiles.id = auth.uid() and profiles.role = 'admin'
+    )
+  );
+
+create policy "System can insert audit logs" on public.audit_logs
+  for insert with check (true);
+
 alter table public.portfolio enable row level security;
 
 create policy "Portfolio items are viewable by everyone" on public.portfolio
