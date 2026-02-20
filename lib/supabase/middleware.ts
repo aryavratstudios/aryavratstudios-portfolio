@@ -63,19 +63,17 @@ export function createClient(request: NextRequest) {
 }
 
 export async function updateSession(request: NextRequest) {
-    // Get client IP for rate limiting
-    const clientIP = request.headers.get("x-forwarded-for") ||
-        request.headers.get("x-real-ip") ||
-        "unknown";
-
-    // Rate limiting check
+    // 1. Digital Firewall: Client IP Rate Limiting
+    const clientIP = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
     const now = Date.now();
     const clientData = rateLimitMap.get(clientIP);
 
     if (clientData) {
         if (now - clientData.timestamp < RATE_LIMIT_WINDOW) {
             if (clientData.count >= RATE_LIMIT_MAX) {
-                return new NextResponse("Too Many Requests", { status: 429 });
+                // Potential Security Breach / DOS - Log to console (in real app, trigger Discord)
+                console.warn(`[FIREWALL] Rate limit exceeded for IP: ${clientIP}`);
+                return new NextResponse("Security Firewall: Too Many Requests", { status: 429 });
             }
             clientData.count++;
         } else {
@@ -87,14 +85,32 @@ export async function updateSession(request: NextRequest) {
 
     const { supabase, response } = createClient(request);
 
-    // Verify user session
-    await supabase.auth.getUser();
+    // 2. Refresh session / Get User
+    const { data: { user } } = await supabase.auth.getUser();
 
-    // Add security headers to response
+    // 3. Admin Protection Logic (Integrated into updateSession for better performance)
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+        if (!user) {
+            return NextResponse.redirect(new URL('/login', request.url));
+        }
+
+        const ALLOWED_ADMINS = ["karn.abhinav00@gmail.com", "aryavrat.studios@gmail.com"];
+        const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+
+        if (!ALLOWED_ADMINS.includes(user.email!) && profile?.role !== 'admin') {
+            console.warn(`[FIREWALL] Unauthorized admin access attempt by ${user.email} from IP: ${clientIP}`);
+            // This is where we could trigger a Discord Alert if it wasn't on the Edge.
+            // Instead, we'll route to dashboard.
+            return NextResponse.redirect(new URL('/dashboard', request.url));
+        }
+    }
+
+    // 4. Hardened Security Headers
     response.headers.set("X-Content-Type-Options", "nosniff");
     response.headers.set("X-Frame-Options", "DENY");
     response.headers.set("X-XSS-Protection", "1; mode=block");
     response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    response.headers.set("Content-Security-Policy", "upgrade-insecure-requests");
 
     return response;
 }

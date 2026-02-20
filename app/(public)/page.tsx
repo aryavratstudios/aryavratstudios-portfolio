@@ -5,6 +5,11 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Zap, Shield, Star, Globe, Cpu, MessageSquare, Workflow, Users, Rocket } from "lucide-react";
 import { motion } from "framer-motion";
 import { Logo } from "@/components/logo";
+import { MagneticWrapper } from "@/components/ui/magnetic-wrapper";
+import { ProjectTimeline } from "@/components/home/project-timeline";
+import { PricingCalculator } from "@/components/home/pricing-calculator";
+import { Newsletter } from "@/components/home/newsletter";
+import { FAQSection } from "@/components/home/faq-section";
 
 const testimonials = [
     {
@@ -103,14 +108,18 @@ export default function HomePage() {
                         transition={{ delay: 0.3, duration: 0.8 }}
                         className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
                     >
-                        <Button asChild size="lg" className="h-12 px-8 text-base font-semibold shadow-glow-primary hover:scale-105 transition-all duration-300 bg-primary text-black border-none">
-                            <Link href="/login">
-                                Start Project <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                        <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base glass border-white/10 hover:bg-white/10 transition-all duration-300">
-                            <Link href="/work">View Portfolio</Link>
-                        </Button>
+                        <MagneticWrapper intensity={0.2}>
+                            <Button asChild size="lg" className="h-12 px-10 text-base font-black shadow-glow-primary hover:scale-105 active:scale-95 transition-all duration-300 bg-primary text-black border-none rounded-full">
+                                <Link href="/login">
+                                    Start Project <ArrowRight className="ml-2 h-4 w-4" />
+                                </Link>
+                            </Button>
+                        </MagneticWrapper>
+                        <MagneticWrapper intensity={0.2}>
+                            <Button asChild variant="outline" size="lg" className="h-12 px-10 text-base glass border-white/10 hover:bg-white/10 transition-all duration-300 rounded-full">
+                                <Link href="/work">View Portfolio</Link>
+                            </Button>
+                        </MagneticWrapper>
                     </motion.div>
                 </motion.div>
 
@@ -196,6 +205,17 @@ export default function HomePage() {
                 </div>
             </section>
 
+            {/* Production Timeline */}
+            <section className="py-24 border-y border-white/5 bg-black/40 relative">
+                <ProjectTimeline />
+            </section>
+
+            {/* Pricing Calculator */}
+            <section className="py-24 relative overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[150px] -z-10"></div>
+                <PricingCalculator />
+            </section>
+
             {/* Testimonials Section */}
             <section className="py-24 relative overflow-hidden">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10"></div>
@@ -251,6 +271,9 @@ export default function HomePage() {
                 </div>
             </section>
 
+            {/* Newsletter Section */}
+            <Newsletter />
+
             {/* Process Section */}
             <section className="py-24 bg-black/50 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none"></div>
@@ -302,6 +325,9 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* FAQ Section */}
+            <FAQSection />
 
             {/* CTA Section */}
             <section className="py-24 relative overflow-hidden">

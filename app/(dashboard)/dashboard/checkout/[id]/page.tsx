@@ -10,6 +10,17 @@ import { completePayment, validateCoupon } from "../actions";
 import { supabase } from "@/lib/supabase/client";
 import { ServiceAgreement } from "@/components/checkout/service-agreement";
 import { cn } from "@/lib/utils";
+import { triggerSuccessConfetti } from "@/lib/confetti";
+import { useMagnetic } from "@/hooks/use-magnetic";
+
+function MagneticWrapper({ children, intensity = 0.5 }: { children: React.ReactNode; intensity?: number }) {
+    const { ref, style } = useMagnetic(intensity);
+    return (
+        <div ref={ref} style={style}>
+            {children}
+        </div>
+    );
+}
 
 export default function CheckoutPage() {
     const params = useParams();
@@ -72,6 +83,7 @@ export default function CheckoutPage() {
             const res = await completePayment(orderId, appliedCoupon?.id);
             if (res.success) {
                 setResult({ ticketUrl: res.ticketUrl, inviteUrl: res.inviteUrl });
+                triggerSuccessConfetti();
             }
         } catch (error) {
             console.error("Payment failed:", error);
@@ -270,23 +282,25 @@ export default function CheckoutPage() {
                                 </div>
                             </div>
 
-                            <Button
-                                onClick={handlePay}
-                                disabled={isProcessing || !hasAcceptedContract}
-                                className={cn(
-                                    "w-full h-18 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-all group overflow-hidden relative",
-                                    hasAcceptedContract ? "bg-[#5865F2] hover:bg-[#4752C4] text-white" : "bg-zinc-800 text-zinc-500 grayscale opacity-50 cursor-not-allowed"
-                                )}
-                            >
-                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                                <span className="relative z-10 flex items-center justify-center gap-3 lowercase">
-                                    {isProcessing ? (
-                                        <div className="h-5 w-5 rounded-full border-3 border-white border-t-transparent animate-spin"></div>
-                                    ) : (
-                                        <>INITIALIZE PRODUCTION <ArrowRight className="w-5 h-5" /></>
+                            <MagneticWrapper intensity={0.2}>
+                                <Button
+                                    onClick={handlePay}
+                                    disabled={isProcessing || !hasAcceptedContract}
+                                    className={cn(
+                                        "w-full h-18 rounded-2xl font-black text-lg shadow-xl hover:scale-105 active:scale-95 transition-all group overflow-hidden relative",
+                                        hasAcceptedContract ? "bg-[#5865F2] hover:bg-[#4752C4] text-white" : "bg-zinc-800 text-zinc-500 grayscale opacity-50 cursor-not-allowed"
                                     )}
-                                </span>
-                            </Button>
+                                >
+                                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                                    <span className="relative z-10 flex items-center justify-center gap-3 lowercase">
+                                        {isProcessing ? (
+                                            <div className="h-5 w-5 rounded-full border-3 border-white border-t-transparent animate-spin"></div>
+                                        ) : (
+                                            <>INITIALIZE PRODUCTION <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
+                                        )}
+                                    </span>
+                                </Button>
+                            </MagneticWrapper>
 
                             <p className="text-[9px] text-zinc-600 text-center leading-relaxed font-bold uppercase tracking-wider">
                                 Secure Initialization | Instant Ticket Creation | SLA Protection

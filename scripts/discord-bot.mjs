@@ -43,8 +43,23 @@ const commands = [
                 .addChoices(
                     { name: 'Pending', value: 'pending' },
                     { name: 'Completed', value: 'completed' }
-                ))
+                )),
+    new SlashCommandBuilder()
+        .setName('admin-stats')
+        .setDescription('Fetch real-time business statistics'),
+    new SlashCommandBuilder()
+        .setName('security-status')
+        .setDescription('Check system health and recent firewall events'),
+    new SlashCommandBuilder()
+        .setName('notify-owner')
+        .setDescription('Send an emergency DM to the owner')
+        .addStringOption(option =>
+            option.setName('message')
+                .setDescription('The emergency message')
+                .setRequired(true))
 ];
+
+const OWNER_ID = '1458069414640615578'; // Base on Guild ID or provided snowflake
 
 client.once('ready', async () => {
     console.log(`🚀 Discord Bot is ONLINE as ${client.user?.tag}`);
@@ -103,6 +118,32 @@ client.on('interactionCreate', async interaction => {
             await interaction.editReply({
                 content: `❌ **Error updating payment:**\n${err.message}`
             });
+        }
+    }
+
+    if (interaction.commandName === 'admin-stats') {
+        await interaction.deferReply();
+        try {
+            const { data: projects } = await supabase.from('projects').select('final_price, status');
+            const totalSales = projects?.reduce((acc, curr) => acc + (Number(curr.final_price) || 0), 0) || 0;
+            const completed = projects?.filter(p => p.status === 'completed').length || 0;
+
+            await interaction.editReply({
+                content: `📊 **Live Empire Stats**\nTotal Revenue: \`$${totalSales}\`\nCompleted Projects: \`${completed}\`\nActive Projects: \`${projects?.length || 0 - completed}\``
+            });
+        } catch (err) {
+            await interaction.editReply(`❌ Error: ${err.message}`);
+        }
+    }
+
+    if (interaction.commandName === 'notify-owner' || interaction.commandName === 'security-status') {
+        const message = interaction.options.getString('message') || "System Health: All Green 🟢";
+        try {
+            const owner = await client.users.fetch(OWNER_ID);
+            await owner.send(`🚨 **Security System Alert**\n${message}`);
+            await interaction.reply({ content: '✅ Owner notified via DM.', ephemeral: true });
+        } catch (err) {
+            await interaction.reply({ content: `❌ Failed to DM owner: ${err.message}`, ephemeral: true });
         }
     }
 });

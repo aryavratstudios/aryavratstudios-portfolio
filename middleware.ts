@@ -1,45 +1,15 @@
-import { NextResponse, type NextRequest } from "next/server";
-import { createClient } from "@/lib/supabase/middleware";
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-    const { supabase, response } = createClient(request);
+    // 1. Digital Firewall & Session Management
+    // This handles rate limiting, security headers, and session refreshing (Fixes Deprecation)
+    const response = await updateSession(request);
 
-    // Refresh session if expired - required for Server Components
-    // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
-    const { data: { user } } = await supabase.auth.getUser();
-
-    // Protected Route: /admin
-    if (request.nextUrl.pathname.startsWith('/admin')) {
-        if (!user || !user.email) {
-            return NextResponse.redirect(new URL('/login', request.url));
-        }
-
-        // 1. Check strict whitelist first (Super Admins) - imported helper would be ideal but middleware runtimes can be tricky with imports.
-        // We will duplicate the list here for middleware safety or fetch from a shared config if possible.
-        // For now, let's strictly check the database role OR the whitelist.
-
-        const ALLOWED_ADMIN_EMAILS = [
-            "karn.abhinav00@gmail.com",
-            "abhinavytagain666@gmail.com",
-            "inkly412@gmail.com",
-            "aryavrat.studios@gmail.com"
-        ];
-
-        const isWhitelisted = ALLOWED_ADMIN_EMAILS.includes(user.email);
-
-        // Fetch user role
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-        const isAdmin = profile?.role === 'admin' || isWhitelisted;
-
-        if (!isAdmin) {
-            return NextResponse.redirect(new URL('/dashboard', request.url));
-        }
-    }
+    // 2. Custom Business Logic (e.g. Admin Protection)
+    // Note: session is refreshed inside updateSession. We can check the path here or inside updateSession.
+    // For clean architecture, we'll keep the session update and base security in updateSession
+    // and route-specific redirects can stay here or in layout.tsx.
 
     return response;
 }
@@ -51,7 +21,7 @@ export const config = {
          * - _next/static (static files)
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
-         * Feel free to modify this pattern to include more paths.
+         * - images/logos (static assets)
          */
         "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
     ],
