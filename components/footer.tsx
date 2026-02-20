@@ -14,10 +14,10 @@ export default function Footer() {
     const handleSubscribe = (e: React.FormEvent) => {
         e.preventDefault();
         setMessage(null);
-        
+
         const formData = new FormData();
         formData.append("email", email);
-        
+
         startTransition(async () => {
             const result = await subscribeToNewsletter(formData);
             if (result.success) {
@@ -57,7 +57,7 @@ export default function Footer() {
                             <Button
                                 type="submit"
                                 disabled={isPending}
-                                className="h-12 px-6 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all disabled:opacity-50 whitespace-nowrap"
+                                className="h-12 px-6 bg-primary hover:bg-primary/90 font-semibold rounded-xl transition-all disabled:opacity-50 whitespace-nowrap"
                             >
                                 {isPending ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />

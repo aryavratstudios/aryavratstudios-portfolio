@@ -1,19 +1,30 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { PlusCircle, Clock, CheckCircle, Package, ArrowRight, TrendingUp, Zap, Sparkles } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import {
+    Users,
+    TrendingUp,
+    ArrowUpRight,
+    Package,
+    Clock,
+    CheckCircle2,
+    CircleEllipsis,
+    ArrowRight,
+    Plus,
+    Search,
+    ChevronRight,
+    MoreHorizontal
+} from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 import { Counter } from "@/components/counter";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
     const [projects, setProjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const supabase = createClient();
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -29,11 +40,11 @@ export default function DashboardPage() {
             setLoading(false);
         };
         fetchProjects();
-    }, [supabase]);
+    }, []);
 
-    const activeProjects = projects?.filter(p => p.status === 'in_progress' || p.status === 'revision') || [];
-    const pendingProjects = projects?.filter(p => p.status === 'pending_review') || [];
-    const completedProjects = projects?.filter(p => p.status === 'completed' || p.status === 'delivered') || [];
+    const activeCount = projects?.filter(p => p.status === 'in_progress' || p.status === 'revision').length || 0;
+    const completedCount = projects?.filter(p => p.status === 'completed' || p.status === 'delivered').length || 0;
+    const totalSpent = projects?.reduce((acc, p) => acc + (p.price || 0), 0) || 0;
 
     if (loading) {
         return (
@@ -44,170 +55,224 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="space-y-12">
-            <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex flex-col md:flex-row md:items-center justify-between gap-4"
-            >
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Welcome Back</h1>
-                    <p className="text-zinc-400 text-sm">Here's an overview of your active creative projects.</p>
+        <div className="flex flex-col gap-10 pb-12">
+            {/* Top Stat row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Total Sales / Spent Widget */}
+                <div className="h-64 relative bg-stone-900/40 rounded-3xl border border-stone-800 p-8 flex flex-col justify-between overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -z-10" />
+                    <div className="flex justify-between items-start">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-white/30 text-xs font-bold uppercase tracking-widest leading-6">Inventory Value</span>
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-white text-4xl font-bold tracking-tighter">
+                                    <Counter value={totalSpent} prefix="$" />
+                                </span>
+                                <div className="flex items-center text-lime-500 text-xs font-bold leading-5">
+                                    <ArrowUpRight className="w-4 h-4" /> 15%
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-12 h-12 bg-stone-950 rounded-2xl flex items-center justify-center border border-stone-800 shadow-xl">
+                            <TrendingUp className="w-6 h-6 text-white" />
+                        </div>
+                    </div>
+                    {/* Visual Chart Placeholder */}
+                    <div className="flex items-end gap-1.5 h-16 pt-2">
+                        {[40, 60, 45, 90, 65, 80, 50, 70, 85, 60, 75, 55].map((h, i) => (
+                            <div key={i} className="flex-1 bg-white/10 rounded-t-sm transition-all group-hover:bg-primary/20" style={{ height: `${h}%` }} />
+                        ))}
+                    </div>
                 </div>
-                <Button asChild className="rounded-full h-11 px-7 font-semibold shadow-glow-primary hover:scale-105 transition-all bg-primary text-black border-none">
-                    <Link href="/dashboard/new">
-                        <PlusCircle className="mr-2 h-5 w-5" />
-                        START NEW PROJECT
-                    </Link>
-                </Button>
-            </motion.div>
 
-            <div className="grid gap-6 md:grid-cols-3">
-                {[
-                    { title: "In Production", count: activeProjects.length, icon: Zap, sub: "Currently being crafted", color: "text-secondary", bg: "bg-secondary/10" },
-                    { title: "Review Required", count: pendingProjects.length, icon: Sparkles, sub: "Waiting for your feedback", color: "text-primary", bg: "bg-primary/10" },
-                    { title: "Completed", count: completedProjects.length, icon: CheckCircle, sub: "Successfully delivered", color: "text-accent", bg: "bg-accent/10" },
-                ].map((stat, i) => (
-                    <motion.div
-                        key={stat.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                    >
-                        <Card className="glass-card border-foreground/5 bg-foreground/[0.02] hover:border-primary/30 hover:bg-foreground/[0.04] transition-all duration-500 group">
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 group-hover:text-primary transition-colors">{stat.title}</CardTitle>
-                                <div className={cn("p-2.5 rounded-xl transition-transform group-hover:scale-110 group-hover:rotate-12", stat.bg)}>
-                                    <stat.icon className={cn("h-4 w-4", stat.color)} />
+                {/* Active Projects Widget */}
+                <div className="h-64 relative bg-stone-900/40 rounded-3xl border border-stone-800 p-8 flex flex-col justify-between overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl -z-10" />
+                    <div className="flex justify-between items-start">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-white/30 text-xs font-bold uppercase tracking-widest leading-6">Active Jobs</span>
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-white text-4xl font-bold tracking-tighter">
+                                    <Counter value={activeCount} />
+                                </span>
+                                <div className="flex items-center text-emerald-500 text-xs font-bold leading-5">
+                                    <ArrowUpRight className="w-4 h-4" /> 8%
                                 </div>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-5xl font-black text-foreground mb-1 tracking-tighter">
-                                    <Counter value={stat.count} />
+                            </div>
+                        </div>
+                        <div className="w-12 h-12 bg-stone-950 rounded-2xl flex items-center justify-center border border-stone-800 shadow-xl">
+                            <Package className="w-6 h-6 text-white" />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <div className="flex -space-x-2">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="w-8 h-8 rounded-full border-2 border-stone-900 bg-stone-800 overflow-hidden">
+                                    <img src={`https://placehold.co/32x32?text=${i}`} alt="user" />
                                 </div>
-                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">{stat.sub}</p>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                ))}
+                            ))}
+                        </div>
+                        <span className="text-white/40 text-xs font-medium">Joined +12 people today</span>
+                    </div>
+                </div>
+
+                {/* Profile Summary Card */}
+                <div className="h-64 relative bg-stone-900/40 rounded-3xl border border-stone-800 p-8 flex flex-col items-center justify-center gap-4 text-center overflow-hidden">
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary/10 to-transparent -z-10" />
+                    <div className="relative">
+                        <img className="w-20 h-20 rounded-full border-4 border-stone-950 shadow-2xl" src="https://placehold.co/80x80" alt="Andrew Smith" />
+                        <div className="absolute -bottom-1 -right-1 flex gap-0.5">
+                            <div className="w-3 h-3 bg-red-500 rounded-full border-2 border-stone-900" />
+                            <div className="w-3 h-3 bg-amber-400 rounded-full border-2 border-stone-900" />
+                            <div className="w-3 h-3 bg-lime-600 rounded-full border-2 border-stone-900" />
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-white text-lg font-bold">Andrew Smith</h3>
+                        <p className="text-white/40 text-xs uppercase font-bold tracking-[0.2em] mt-1">Product Designer</p>
+                    </div>
+                </div>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="lg:col-span-2 glass-card border-white/5 bg-zinc-900/20">
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <div>
-                            <CardTitle className="text-xl font-bold">Recent Projects</CardTitle>
-                            <CardDescription className="text-zinc-500">Your latest project activity</CardDescription>
+            {/* Main Content Sections */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                {/* Projects List / Table Section */}
+                <div className="lg:col-span-8 flex flex-col gap-6">
+                    <div className="flex items-center justify-between px-2">
+                        <h2 className="text-white text-xl font-bold tracking-tight">Recent Projects</h2>
+                        <div className="flex items-center gap-4">
+                            <div className="relative hidden sm:block">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                                <input type="text" placeholder="Search orders..." className="bg-stone-900/50 border border-stone-800 rounded-xl px-10 py-2 text-sm text-white placeholder:text-white/20 focus:outline-none focus:ring-1 focus:ring-primary/40 transition-all" />
+                            </div>
+                            <Button asChild size="sm" className="bg-white/5 border border-stone-800 text-white hover:bg-white/10 rounded-xl px-4">
+                                <Link href="/dashboard/orders">View All</Link>
+                            </Button>
                         </div>
-                        <Button variant="ghost" asChild className="text-primary hover:text-primary hover:bg-primary/10">
-                            <Link href="/dashboard/orders">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                        </Button>
-                    </CardHeader>
-                    <CardContent>
-                        {projects.length > 0 ? (
-                            <div className="space-y-4">
-                                {projects.slice(0, 4).map((project, i) => (
-                                    <motion.div
-                                        key={project.id}
-                                        initial={{ opacity: 0, scale: 0.98 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: i * 0.05 }}
-                                    >
-                                        <Link
-                                            href={`/dashboard/orders/${project.id}`}
-                                            className="flex items-center justify-between p-5 rounded-[1.5rem] bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/10 transition-all group cursor-pointer"
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <div className="h-12 w-12 rounded-xl bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-primary group-hover:bg-primary/10 transition-all">
-                                                    <Package className="h-6 w-6" />
-                                                </div>
-                                                <div>
-                                                    <div className="font-bold text-white mb-0.5">{project.title}</div>
-                                                    <div className="text-xs text-zinc-500 uppercase font-bold tracking-tight">{project.service_type}</div>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                {project.status === 'pending_review' && (
-                                                    <Button size="sm" asChild className="h-8 rounded-full bg-primary/20 text-primary border border-primary/20 hover:bg-primary text-[10px] font-black uppercase tracking-widest hover:text-black transition-all">
-                                                        <span onClick={(e) => e.stopPropagation()}>
-                                                            <Link href={`/dashboard/checkout/${project.id}`}>Complete Payment</Link>
-                                                        </span>
-                                                    </Button>
-                                                )}
-                                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest
-                                                    ${project.status === 'delivered' ? 'bg-accent/10 text-accent border border-accent/20' :
-                                                        project.status === 'revision' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' :
-                                                            project.status === 'completed' ? 'bg-accent/10 text-accent border border-accent/20' :
-                                                                project.status === 'payment_done' ? 'bg-blue-500/10 text-blue-500 border border-blue-500/20' :
-                                                                    project.status === 'in_progress' ? 'bg-primary/10 text-primary border border-primary/20' :
-                                                                        'bg-zinc-800 text-zinc-400 border border-white/5'}`}>
-                                                    {project.status.replace('_', ' ')}
-                                                </span>
-                                                <ChevronRight className="h-4 w-4 text-zinc-700 group-hover:text-white transition-colors" />
-                                            </div>
-                                        </Link>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="text-center py-20 bg-white/5 rounded-3xl border border-dashed border-white/10">
-                                <p className="text-zinc-500 mb-6">No active projects found.</p>
-                                <Button asChild variant="outline" className="rounded-full border-white/10">
-                                    <Link href="/dashboard/new">Place your first order</Link>
-                                </Button>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+                    </div>
 
-                <Card className="glass-card border-primary/20 bg-primary/5 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[60px] -z-10"></div>
-                    <CardHeader>
-                        <CardTitle className="text-xl font-bold">Priority Workshop</CardTitle>
-                        <CardDescription className="text-zinc-500">Accelerate your growth pipeline</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="p-4 rounded-2xl bg-black/40 border border-white/10 space-y-3">
-                            <h4 className="text-sm font-bold flex items-center gap-2">
-                                <TrendingUp className="w-4 h-4 text-primary" />
-                                Quick Start
-                            </h4>
-                            <p className="text-xs text-zinc-500 leading-relaxed">Need something specific? Browse our predefined service packages or request a quick consultation.</p>
+                    <div className="bg-stone-900/40 rounded-3xl border border-stone-800 backdrop-blur-3xl overflow-hidden">
+                        <div className="min-w-full inline-block align-middle">
+                            <div className="overflow-hidden">
+                                <table className="min-w-full divide-y divide-stone-800">
+                                    <thead>
+                                        <tr className="bg-stone-950/20">
+                                            <th className="px-6 py-4 text-left text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Project</th>
+                                            <th className="px-6 py-4 text-left text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Service</th>
+                                            <th className="px-6 py-4 text-left text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Status</th>
+                                            <th className="px-6 py-4 text-left text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Date</th>
+                                            <th className="px-6 py-4 text-right text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-stone-800">
+                                        {projects.length > 0 ? (
+                                            projects.slice(0, 5).map((project) => (
+                                                <tr key={project.id} className="group hover:bg-white/[0.02] transition-colors cursor-pointer" onClick={() => window.location.href = `/dashboard/orders/${project.id}`}>
+                                                    <td className="px-6 py-5 whitespace-nowrap">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-10 h-10 rounded-xl bg-stone-950 border border-stone-800 flex items-center justify-center group-hover:bg-stone-900 transition-colors">
+                                                                <Package className="w-5 h-5 text-white/40 group-hover:text-primary transition-colors" />
+                                                            </div>
+                                                            <span className="text-white text-sm font-medium">{project.title}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-5 whitespace-nowrap text-white/40 text-sm">{project.service_type}</td>
+                                                    <td className="px-6 py-5 whitespace-nowrap">
+                                                        <span className={cn(
+                                                            "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5",
+                                                            project.status === 'delivered' || project.status === 'completed' ? 'bg-emerald-500/10 text-emerald-500' :
+                                                                project.status === 'in_progress' ? 'bg-blue-500/10 text-blue-500' :
+                                                                    project.status === 'revision' ? 'bg-orange-500/10 text-orange-500' :
+                                                                        'bg-white/10 text-white/40'
+                                                        )}>
+                                                            <div className={cn("w-1 h-1 rounded-full",
+                                                                project.status === 'delivered' || project.status === 'completed' ? 'bg-emerald-500' :
+                                                                    project.status === 'in_progress' ? 'bg-blue-500' :
+                                                                        project.status === 'revision' ? 'bg-orange-500' :
+                                                                            'bg-white/40'
+                                                            )} />
+                                                            {project.status.replace('_', ' ')}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-5 whitespace-nowrap text-white/30 text-[10px] font-bold uppercase tracking-wider">
+                                                        {new Date(project.created_at).toLocaleDateString()}
+                                                    </td>
+                                                    <td className="px-6 py-5 whitespace-nowrap text-right text-white text-sm font-bold">
+                                                        ${project.price}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan={5} className="px-6 py-20 text-center text-white/20 text-sm font-medium">No projects found.</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div className="grid gap-3">
-                            <Button className="w-full justify-between rounded-xl h-11 border-white/10 hover:bg-white/10" variant="outline" asChild>
-                                <Link href="/services">
-                                    Browse Packages <ArrowRight className="h-4 w-4" />
-                                </Link>
-                            </Button>
-                            <Button className="w-full justify-between rounded-xl h-11 border-white/10 hover:bg-white/10" variant="outline" asChild>
-                                <Link href="/work">
-                                    Innovation Gallery <ArrowRight className="h-4 w-4" />
-                                </Link>
-                            </Button>
+                    </div>
+                </div>
+
+                {/* Sidebar Widget Section */}
+                <div className="lg:col-span-4 flex flex-col gap-10">
+                    {/* Planned Income Chart Widget */}
+                    <div className="bg-stone-900/40 rounded-3xl border border-stone-800 p-8 flex flex-col gap-6 relative overflow-hidden">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-white text-sm font-bold uppercase tracking-widest leading-6">Growth Pulse</h3>
+                            <MoreHorizontal className="w-5 h-5 text-white/20" />
                         </div>
-                    </CardContent>
-                </Card>
+                        <div className="relative flex justify-center items-center py-4">
+                            {/* Circular Progress Visual */}
+                            <svg className="w-40 h-40 transform -rotate-90">
+                                <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-stone-800" />
+                                <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" strokeDasharray={440} strokeDashoffset={440 - (440 * 0.45)} className="text-primary drop-shadow-[0_0_8px_rgba(94,129,244,0.5)]" />
+                            </svg>
+                            <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                <span className="text-white text-3xl font-bold tracking-tighter">45%</span>
+                                <span className="text-white/30 text-[10px] font-bold uppercase tracking-widest">Target</span>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="p-4 bg-stone-950/40 rounded-2xl border border-stone-800">
+                                <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-1">Efficiency</div>
+                                <div className="text-white text-lg font-bold">15%</div>
+                            </div>
+                            <div className="p-4 bg-stone-950/40 rounded-2xl border border-stone-800">
+                                <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-1">Capacity</div>
+                                <div className="text-white text-lg font-bold">75%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Quick Access List */}
+                    <div className="flex flex-col gap-4">
+                        <div className="px-2 flex items-center justify-between">
+                            <h3 className="text-white text-sm font-bold uppercase tracking-widest">Innovation Lab</h3>
+                            <Plus className="w-4 h-4 text-white/40 cursor-pointer hover:text-white transition-colors" />
+                        </div>
+                        <div className="space-y-3">
+                            {[
+                                { title: "New Concept", sub: "Brand identity refresh", icon: ArrowRight, color: "text-blue-500" },
+                                { title: "Review Pack", sub: "Deliverable internal check", icon: ArrowRight, color: "text-orange-500" },
+                            ].map((item, i) => (
+                                <div key={i} className="flex items-center justify-between p-4 bg-stone-900/40 rounded-2xl border border-stone-800 hover:bg-white/[0.04] transition-all cursor-pointer group">
+                                    <div className="flex items-center gap-4">
+                                        <div className={cn("w-10 h-10 rounded-xl bg-stone-950 border border-stone-800 flex items-center justify-center", item.color)}>
+                                            <item.icon className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                                        </div>
+                                        <div>
+                                            <div className="text-white text-sm font-bold">{item.title}</div>
+                                            <div className="text-white/30 text-[10px] font-medium leading-4">{item.sub}</div>
+                                        </div>
+                                    </div>
+                                    <ChevronRight className="w-4 h-4 text-white/10 group-hover:text-white/40 transition-colors" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    );
-}
-
-function ChevronRight({ className }: { className?: string }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={className}
-        >
-            <path d="m9 18 6-6-6-6" />
-        </svg>
     );
 }

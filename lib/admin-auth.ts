@@ -1,7 +1,22 @@
 import { createClient } from "@/lib/supabase/server";
 
+const ADMIN_WHITELIST = [
+    "karn.abhinav00@gmail.com",
+    "abhinavytagain666@gmail.com",
+    "inkly412@gmail.com",
+    "aryavrat.studios@gmail.com"
+];
+
 /**
- * Verify that the current user is an admin
+ * Check if an email is in the admin whitelist
+ */
+export function isWhitelisted(email?: string): boolean {
+    if (!email) return false;
+    return ADMIN_WHITELIST.includes(email.toLowerCase());
+}
+
+/**
+ * Verify that the current user is an admin and whitelisted
  * Returns the user if admin, throws error otherwise
  */
 export async function requireAdmin() {
@@ -12,7 +27,12 @@ export async function requireAdmin() {
         throw new Error("Unauthorized: Authentication required");
     }
 
-    // Check if user has admin role
+    // 1. Mandatory Whitelist Check
+    if (!isWhitelisted(user.email)) {
+        throw new Error(`Forbidden: Access restricted to authorized administrators only. (${user.email})`);
+    }
+
+    // 2. Database Role Check
     const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role, email")
@@ -24,7 +44,7 @@ export async function requireAdmin() {
     }
 
     if (profile.role !== "admin") {
-        throw new Error(`Forbidden: Admin access required. Current role: ${profile.role}`);
+        throw new Error(`Forbidden: Admin role required in database. Current role: ${profile.role}`);
     }
 
     return { user, profile };
@@ -35,23 +55,31 @@ export async function requireAdmin() {
  */
 export async function isAdmin(userId?: string): Promise<boolean> {
     const supabase = await createClient();
-    
+
     let targetUserId = userId;
-    
+    let targetEmail: string | undefined;
+
     if (!targetUserId) {
         const { data: { user } } = await supabase.auth.getUser();
         targetUserId = user?.id;
+        targetEmail = user?.email;
     }
-    
+
     if (!targetUserId) return false;
-    
+
+    // Check whitelist first if email is available
+    if (targetEmail && !isWhitelisted(targetEmail)) {
+        return false;
+    }
+
     const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, email")
         .eq("id", targetUserId)
         .single();
-    
-    return profile?.role === "admin";
+
+    // Final verify against whitelist and role
+    return profile?.role === "admin" && isWhitelisted(profile.email || targetEmail);
 }
 
 /**
@@ -59,11 +87,9 @@ export async function isAdmin(userId?: string): Promise<boolean> {
  */
 export async function isSuperAdmin(email?: string): Promise<boolean> {
     if (email) {
-        // Check if email is whitelisted
-        const whitelistedEmails = process.env.ADMIN_WHITELIST?.split(",") || [];
-        if (whitelistedEmails.includes(email.toLowerCase())) {
-            return true;
-        }
+        return isWhitelisted(email);
     }
-    return isAdmin();
+    const { data: { user } } = await (await createClient()).auth.getUser();
+    return isWhitelisted(user?.email);
 }
+

@@ -10,24 +10,24 @@ import { checkRateLimit } from "@/lib/rate-limit";
 export async function updateProjectStatus(formData: FormData) {
     // Verify admin authorization
     const { user } = await requireAdmin();
-    
+
     // Rate limiting for admin actions
     const rateCheck = checkRateLimit(user.id, "admin");
     if (!rateCheck.allowed) {
         throw new Error("Too many admin actions. Please wait.");
     }
-    
+
     const supabase = await createClient();
-    
+
     const id = formData.get("id") as string;
     const status = formData.get("status") as string;
-    
+
     if (!id || !status) {
         throw new Error("Missing required fields: id and status");
     }
-    
+
     const updates: Record<string, string> = { status };
-    
+
     // Auto-generate portfolio description when completing a project
     if (status === "completed") {
         const { data: project } = await supabase
@@ -35,11 +35,11 @@ export async function updateProjectStatus(formData: FormData) {
             .select("title, description, service_type")
             .eq("id", id)
             .single();
-            
+
         if (project) {
             try {
                 const description = await generatePortfolioDescription(
-                    project.title, 
+                    project.title,
                     project.service_type || "Digital Services",
                     project.description || ""
                 );
@@ -51,9 +51,9 @@ export async function updateProjectStatus(formData: FormData) {
             }
         }
     }
-    
+
     await supabase.from("projects").update(updates).eq("id", id);
-    
+
     await logAdminAction("update_project_status", id, { status, updates }, { projectId: id });
 
     revalidatePath("/admin");
@@ -64,20 +64,20 @@ export async function updateProjectStatus(formData: FormData) {
 export async function togglePortfolio(formData: FormData) {
     // Verify admin authorization
     const { user } = await requireAdmin();
-    
+
     // Rate limiting for admin actions
     const rateCheck = checkRateLimit(user.id, "admin");
     if (!rateCheck.allowed) {
         throw new Error("Too many admin actions. Please wait.");
     }
-    
+
     const supabase = await createClient();
-    
+
     const id = formData.get("id") as string;
     const currentStateStr = formData.get("currentState") as string;
     const show = currentStateStr === "true";
     const newState = !show;
-    
+
     if (!id) {
         throw new Error("Missing project ID");
     }
@@ -93,22 +93,22 @@ export async function togglePortfolio(formData: FormData) {
 export async function updateProfileRole(formData: FormData) {
     // Verify admin authorization
     const { user } = await requireAdmin();
-    
+
     // Rate limiting for admin actions
     const rateCheck = checkRateLimit(user.id, "admin");
     if (!rateCheck.allowed) {
         throw new Error("Too many admin actions. Please wait.");
     }
-    
+
     const supabase = await createClient();
-    
+
     const id = formData.get("id") as string;
     const role = formData.get("role") as string;
-    
+
     if (!id || !role) {
         throw new Error("Missing required fields: id and role");
     }
-    
+
     // Validate role
     const validRoles = ["client", "admin", "designer", "manager"];
     if (!validRoles.includes(role)) {
@@ -125,22 +125,22 @@ export async function updateProfileRole(formData: FormData) {
 export async function createCoupon(formData: FormData) {
     // Verify admin authorization
     const { user } = await requireAdmin();
-    
+
     // Rate limiting for admin actions
     const rateCheck = checkRateLimit(user.id, "admin");
     if (!rateCheck.allowed) {
         throw new Error("Too many admin actions. Please wait.");
     }
-    
+
     const supabase = await createClient();
-    
+
     const code = formData.get("code") as string;
     const discount = parseInt(formData.get("discount") as string);
-    
+
     if (!code || isNaN(discount)) {
         throw new Error("Missing required fields: code and discount");
     }
-    
+
     if (discount <= 0 || discount > 100) {
         throw new Error("Discount must be between 1 and 100 percent");
     }
@@ -155,23 +155,23 @@ export async function createCoupon(formData: FormData) {
 export async function createUser(formData: FormData): Promise<void> {
     // Verify admin authorization
     const { user } = await requireAdmin();
-    
+
     // Rate limiting for admin actions
     const rateCheck = checkRateLimit(user.id, "admin");
     if (!rateCheck.allowed) {
         throw new Error("Too many admin actions. Please wait.");
     }
-    
+
     const supabase = await createClient();
-    
+
     const email = formData.get("email") as string;
     const role = formData.get("role") as string;
     const fullName = formData.get("fullName") as string;
-    
+
     if (!email || !role) {
         throw new Error("Missing required fields: email and role");
     }
-    
+
     // Validate role
     const validRoles = ["client", "admin", "designer", "manager"];
     if (!validRoles.includes(role)) {
@@ -206,22 +206,22 @@ export async function createUser(formData: FormData): Promise<void> {
 export async function updateProjectPrice(formData: FormData) {
     // Verify admin authorization
     const { user } = await requireAdmin();
-    
+
     // Rate limiting for admin actions
     const rateCheck = checkRateLimit(user.id, "admin");
     if (!rateCheck.allowed) {
         throw new Error("Too many admin actions. Please wait.");
     }
-    
+
     const supabase = await createClient();
-    
+
     const id = formData.get("id") as string;
     const price = Number(formData.get("price"));
-    
+
     if (!id || isNaN(price)) {
         throw new Error("Missing required fields: id and price");
     }
-    
+
     if (price < 0) {
         throw new Error("Price cannot be negative");
     }
@@ -231,4 +231,51 @@ export async function updateProjectPrice(formData: FormData) {
     await logAdminAction("update_price", id, { price }, { projectId: id });
 
     revalidatePath("/admin");
+}
+
+export async function fetchDesigners() {
+    await requireAdmin();
+    const supabase = await createClient();
+    const { data: designers } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "designer");
+    return designers || [];
+}
+
+export async function assignDesigner(projectId: string, designerId: string) {
+    const { user } = await requireAdmin();
+    const supabase = await createClient();
+
+    const { error } = await supabase
+        .from("projects")
+        .update({ designer_id: designerId })
+        .eq("id", projectId);
+
+    if (error) throw new Error(error.message);
+
+    await logAdminAction("assign_designer", projectId, { designerId }, { projectId, designerId });
+
+    revalidatePath("/admin");
+    return { success: true };
+}
+
+export async function fetchAdminStats() {
+    await requireAdmin();
+    const supabase = await createClient();
+
+    const { data: orders } = await supabase.from("projects").select("id, final_price, status");
+    const { count: usersCount } = await supabase.from("profiles").select("*", { count: "exact", head: true });
+
+    const totalSales = orders?.reduce((acc, curr) => acc + (Number(curr.final_price) || 0), 0) || 0;
+    const activeProjects = orders?.filter(o => ["in_progress", "delivered", "revision"].includes(o.status)).length || 0;
+    const pendingOrders = orders?.filter(o => o.status === "pending_review").length || 0;
+
+    return {
+        totalSales,
+        ordersCount: orders?.length || 0,
+        usersCount: usersCount || 0,
+        pendingOrders,
+        activeProjects
+    };
 }

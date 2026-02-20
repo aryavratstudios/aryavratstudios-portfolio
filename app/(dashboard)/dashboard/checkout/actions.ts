@@ -10,11 +10,11 @@ import { logActivity, generatePaymentToken } from "@/lib/security";
 export async function validateCoupon(code: string) {
     // Rate limiting for coupon validation
     const rateLimitKey = code; // Use coupon code as part of the key
-    const rateCheck = checkRateLimit(rateLimitKey, "coupon");
+    const rateCheck = await checkRateLimit(rateLimitKey, "coupon");
     if (!rateCheck.allowed) {
         return { success: false, message: "Too many validation attempts. Please wait." };
     }
-    
+
     const supabase = await createClient();
     const { data: coupon, error } = await supabase
         .from("coupons")
@@ -34,17 +34,20 @@ export async function validateCoupon(code: string) {
     };
 }
 
-export async function completePayment(projectId: string, couponId?: string) {
+export async function completePayment(projectId: string, couponId?: string, contractAccepted: boolean = false) {
+    if (!contractAccepted) throw new Error("International Client Service Agreement must be accepted.");
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    
+
     if (!user) throw new Error("Unauthorized");
-    
+
     // Rate limiting for payments
-    const rateCheck = checkRateLimit(user.id, "payment");
+    const rateCheck = await checkRateLimit(user.id, "payment");
     if (!rateCheck.allowed) {
         throw new Error("Too many payment attempts. Please wait before trying again.");
     }
+
 
     // Safety check for profile (ensure FK doesn't fail)
     const { data: profile } = await supabase.from("profiles").select("id").eq("id", user.id).single();
@@ -62,13 +65,9 @@ export async function completePayment(projectId: string, couponId?: string) {
     if (fetchError || !project) throw new Error("Project not found");
 
     // SECURITY: Validate price server-side to prevent tampering
-    const priceValidation = validatePrice(project.service_type, Number(project.price) || 35);
-    if (!priceValidation.valid) {
-        throw new Error(priceValidation.message);
-    }
-
-    // Use base price as the authoritative price (not client-submitted)
-    let finalPrice = priceValidation.basePrice;
+    // Always use base price as the authoritative price (never trust client-submitted project.price)
+    const basePrice = getBasePrice(project.service_type);
+    let finalPrice = basePrice;
     let discountAmount = 0;
 
     // Generate payment token for audit trail
@@ -79,6 +78,7 @@ export async function completePayment(projectId: string, couponId?: string) {
             .from("coupons")
             .select("discount_percent")
             .eq("id", couponId)
+            .eq("active", true) // Added safety check
             .single();
 
         if (coupon) {
@@ -87,17 +87,24 @@ export async function completePayment(projectId: string, couponId?: string) {
         }
     }
 
+    // Ensure finalPrice is non-negative and matches expectations
+    if (finalPrice < 0) finalPrice = 0;
+
     // Update status and final pricing details with payment token
     const { error: updateError } = await supabase
         .from("projects")
         .update({
             status: "in_progress",
             discount_amount: discountAmount,
-            final_price: finalPrice,
+            price: basePrice,      // Force correct base price
+            final_price: finalPrice, // Set calculated final price
             coupon_id: couponId || null,
-            payment_token: paymentToken
+            payment_token: paymentToken,
+            contract_accepted: true,
+            contract_accepted_at: new Date().toISOString()
         })
         .eq("id", projectId);
+
 
     if (updateError) throw new Error("Failed to update project status");
 
@@ -116,7 +123,7 @@ export async function completePayment(projectId: string, couponId?: string) {
 
     // Create Discord Ticket
     const discordTicket = await createDiscordTicket(project.title, user.email || user.id);
-    
+
     // Generate Discord invite for client to join
     const discordInvite = await createDiscordInvite();
 

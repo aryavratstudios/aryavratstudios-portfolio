@@ -133,7 +133,7 @@ export default function AboutPage() {
                         Let's collaborate and bring your vision to life with innovative design and powerful technology.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white shadow-glow-primary">
+                        <Button asChild size="lg" className="bg-primary hover:bg-primary/90 shadow-glow-primary">
                             <Link href="/login">Start Your Project</Link>
                         </Button>
                         <Button asChild variant="outline" size="lg" className="border-white/10 hover:bg-white/5">

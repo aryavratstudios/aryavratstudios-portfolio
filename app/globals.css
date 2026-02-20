@@ -17,6 +17,7 @@
   --color-muted-foreground: #a3a3a3;
   --color-border: rgba(255, 255, 255, 0.1);
   --color-card: #171717;
+  --color-primary-glow: rgba(94, 129, 244, 0.4);
 }
 
 :root {
@@ -27,7 +28,7 @@
   --popover: #171717;
   --popover-foreground: #ffffff;
   --primary: #5E81F4;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #000000;
   --secondary: #6b7280;
   --secondary-foreground: #ffffff;
   --muted: #171717;
@@ -65,6 +66,10 @@ body {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+@utility shadow-glow-primary {
+  box-shadow: 0 0 20px var(--color-primary-glow);
+}
+
 @utility section-spacing {
   padding-top: 8rem;
   padding-bottom: 8rem;
@@ -91,27 +96,35 @@ body {
   .text-responsive-xs {
     font-size: 0.75rem;
   }
+
   .text-responsive-sm {
     font-size: 0.875rem;
   }
+
   .text-responsive-base {
     font-size: 1rem;
   }
+
   .text-responsive-lg {
     font-size: 1.125rem;
   }
+
   .text-responsive-xl {
     font-size: 1.25rem;
   }
+
   .text-responsive-2xl {
     font-size: 1.5rem;
   }
+
   .text-responsive-3xl {
     font-size: 1.875rem;
   }
+
   .text-responsive-4xl {
     font-size: 2.25rem;
   }
+
   .text-responsive-5xl {
     font-size: 3rem;
   }
@@ -120,10 +133,12 @@ body {
   .p-responsive {
     padding: 1rem;
   }
+
   .py-responsive {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
+
   .gap-responsive {
     gap: 1rem;
   }
@@ -132,6 +147,7 @@ body {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -143,35 +159,44 @@ body {
   .text-responsive-sm {
     font-size: 0.875rem;
   }
+
   .text-responsive-base {
     font-size: 1rem;
   }
+
   .text-responsive-lg {
     font-size: 1.125rem;
   }
+
   .text-responsive-xl {
     font-size: 1.25rem;
   }
+
   .text-responsive-2xl {
     font-size: 1.5rem;
   }
+
   .text-responsive-3xl {
     font-size: 1.875rem;
   }
+
   .text-responsive-4xl {
     font-size: 2.25rem;
   }
+
   .text-responsive-5xl {
     font-size: 3rem;
   }
-  
+
   .p-responsive {
     padding: 1.5rem;
   }
+
   .py-responsive {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
+
   .gap-responsive {
     gap: 1.5rem;
   }
@@ -181,29 +206,36 @@ body {
   .text-responsive-lg {
     font-size: 1.125rem;
   }
+
   .text-responsive-xl {
     font-size: 1.25rem;
   }
+
   .text-responsive-2xl {
     font-size: 1.5rem;
   }
+
   .text-responsive-3xl {
     font-size: 1.875rem;
   }
+
   .text-responsive-4xl {
     font-size: 2.25rem;
   }
+
   .text-responsive-5xl {
     font-size: 3rem;
   }
-  
+
   .p-responsive {
     padding: 2rem;
   }
+
   .py-responsive {
     padding-top: 4rem;
     padding-bottom: 4rem;
   }
+
   .gap-responsive {
     gap: 2rem;
   }
@@ -213,19 +245,23 @@ body {
   .text-responsive-xl {
     font-size: 1.25rem;
   }
+
   .text-responsive-2xl {
     font-size: 1.5rem;
   }
+
   .text-responsive-3xl {
     font-size: 1.875rem;
   }
+
   .text-responsive-4xl {
     font-size: 2.25rem;
   }
+
   .text-responsive-5xl {
     font-size: 3.5rem;
   }
-  
+
   .p-responsive {
     padding: 2.5rem;
   }

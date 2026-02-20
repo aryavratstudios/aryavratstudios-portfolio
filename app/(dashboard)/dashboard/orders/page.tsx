@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import Link from "next/link";
 export default function OrdersPage() {
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const supabase = createClient();
+
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -27,7 +27,7 @@ export default function OrdersPage() {
             setLoading(false);
         };
         fetchOrders();
-    }, [supabase]);
+    }, []);
 
     if (loading) {
         return (

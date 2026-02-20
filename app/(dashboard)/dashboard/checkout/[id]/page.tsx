@@ -1,13 +1,15 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { CreditCard, ShieldCheck, Zap, ArrowLeft, Check, MessageSquare, ExternalLink, ArrowRight, Tag, Info } from "lucide-react";
+import { CreditCard, ShieldCheck, Zap, ArrowLeft, Check, MessageSquare, ExternalLink, ArrowRight, Tag, Info, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { completePayment, validateCoupon } from "../actions";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
+import { ServiceAgreement } from "@/components/checkout/service-agreement";
+import { cn } from "@/lib/utils";
 
 export default function CheckoutPage() {
     const params = useParams();
@@ -21,7 +23,8 @@ export default function CheckoutPage() {
     const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
     const [result, setResult] = useState<{ ticketUrl?: string; inviteUrl?: string } | null>(null);
 
-    const supabase = createClient();
+    const [hasAcceptedContract, setHasAcceptedContract] = useState(false);
+    const [showAgreement, setShowAgreement] = useState(false);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -34,7 +37,7 @@ export default function CheckoutPage() {
             setLoading(false);
         };
         fetchProject();
-    }, [orderId, supabase]);
+    }, [orderId]);
 
     const basePrice = Number(project?.price) || 35;
     const discountAmount = appliedCoupon ? (basePrice * appliedCoupon.discountPercent) / 100 : 0;
@@ -60,6 +63,10 @@ export default function CheckoutPage() {
     };
 
     const handlePay = async () => {
+        if (!hasAcceptedContract) {
+            setCouponError("You must accept the Service Agreement to proceed.");
+            return;
+        }
         setIsProcessing(true);
         try {
             const res = await completePayment(orderId, appliedCoupon?.id);
@@ -204,7 +211,40 @@ export default function CheckoutPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-4 pt-4 border-t border-white/5">
+                            <div className="space-y-6 pt-4 border-t border-white/5">
+                                {/* Service Agreement Hook */}
+                                <div className="space-y-4">
+                                    <div
+                                        onClick={() => setShowAgreement(true)}
+                                        className="p-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all cursor-pointer group"
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                                                    <FileText className="w-4 h-4" />
+                                                </div>
+                                                <span className="text-[10px] font-black text-white uppercase tracking-widest">Review Service Agreement</span>
+                                            </div>
+                                            <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-primary transition-colors" />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-3 px-2">
+                                        <div
+                                            onClick={() => setHasAcceptedContract(!hasAcceptedContract)}
+                                            className={cn(
+                                                "w-5 h-5 rounded-md border transition-all flex items-center justify-center cursor-pointer mt-0.5",
+                                                hasAcceptedContract ? "bg-primary border-primary" : "border-white/20 bg-white/5 hover:border-white/40"
+                                            )}
+                                        >
+                                            {hasAcceptedContract && <Check className="w-3.5 h-3.5 text-black font-bold" />}
+                                        </div>
+                                        <label className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider leading-relaxed cursor-pointer" onClick={() => setHasAcceptedContract(!hasAcceptedContract)}>
+                                            I agree to the <span className="text-white hover:text-primary underline transition-colors" onClick={(e) => { e.stopPropagation(); setShowAgreement(true); }}>International Client Service Agreement</span>
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] pl-1">Apply Priority Coupon</label>
                                     <div className="flex gap-2">
@@ -217,14 +257,13 @@ export default function CheckoutPage() {
                                                 className="h-14 w-full bg-white/5 rounded-2xl border border-white/10 pl-11 pr-4 text-sm font-bold tracking-widest uppercase focus:outline-none focus:ring-1 focus:ring-primary transition-all"
                                             />
                                         </div>
-                                        <Button
+                                        <button
                                             onClick={handleApplyCoupon}
                                             disabled={couponLoading || !couponCode}
-                                            variant="outline"
-                                            className="h-14 px-6 rounded-2xl border-white/10 hover:bg-white/10 font-bold uppercase text-[10px] tracking-widest"
+                                            className="h-14 px-6 rounded-2xl border-white/10 hover:bg-white/10 font-bold uppercase text-[10px] tracking-widest text-white disabled:opacity-50"
                                         >
                                             {couponLoading ? "..." : "Apply"}
-                                        </Button>
+                                        </button>
                                     </div>
                                     {couponError && <p className="text-[10px] text-red-500 font-bold ml-1 animate-bounce">{couponError}</p>}
                                     {appliedCoupon && <p className="text-[10px] text-green-500 font-bold ml-1">✓ Discount Applied</p>}
@@ -233,8 +272,11 @@ export default function CheckoutPage() {
 
                             <Button
                                 onClick={handlePay}
-                                disabled={isProcessing}
-                                className="w-full h-18 rounded-2xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-black text-lg shadow-xl hover:scale-105 transition-all group overflow-hidden relative"
+                                disabled={isProcessing || !hasAcceptedContract}
+                                className={cn(
+                                    "w-full h-18 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-all group overflow-hidden relative",
+                                    hasAcceptedContract ? "bg-[#5865F2] hover:bg-[#4752C4] text-white" : "bg-zinc-800 text-zinc-500 grayscale opacity-50 cursor-not-allowed"
+                                )}
                             >
                                 <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                                 <span className="relative z-10 flex items-center justify-center gap-3 lowercase">
@@ -253,6 +295,37 @@ export default function CheckoutPage() {
                     </div>
                 </div>
             </motion.div>
+
+            {/* Agreement Modal */}
+            <AnimatePresence>
+                {showAgreement && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowAgreement(false)}
+                            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative w-full max-w-2xl bg-zinc-900 border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden"
+                        >
+                            <ServiceAgreement date={new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })} />
+                            <div className="p-6 bg-zinc-950/50 border-t border-white/10 flex justify-end">
+                                <Button
+                                    onClick={() => setShowAgreement(false)}
+                                    className="rounded-xl bg-white text-black font-bold h-12 px-8 hover:scale-105 transition-all"
+                                >
+                                    Dismiss Review
+                                </Button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

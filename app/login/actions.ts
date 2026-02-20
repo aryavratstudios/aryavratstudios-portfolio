@@ -9,7 +9,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 export async function login(formData: FormData) {
     // Rate limiting for login attempts
     const email = formData.get("email") as string;
-    const rateCheck = checkRateLimit(email, "auth-login");
+    const rateCheck = await checkRateLimit(email, "auth-login");
     if (!rateCheck.allowed) {
         redirect("/login?error=Too many login attempts. Please wait 15 minutes.");
     }
@@ -36,7 +36,7 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
     // Rate limiting for signup attempts
     const email = formData.get("email") as string;
-    const rateCheck = checkRateLimit(email, "auth-signup");
+    const rateCheck = await checkRateLimit(email, "auth-signup");
     if (!rateCheck.allowed) {
         redirect("/login?error=Too many signup attempts. Please try again later.");
     }

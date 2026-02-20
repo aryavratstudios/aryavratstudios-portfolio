@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { 
-    Search, 
-    Bell, 
+import {
+    Search,
+    Bell,
     Menu,
     LayoutDashboard,
     ShoppingCart,
@@ -19,10 +19,13 @@ import {
     TrendingDown,
     Calendar,
     Clock,
-    ChevronRight
+    ChevronRight,
+    TrendingUp as TrendingUpIcon,
+    TrendingDown as TrendingDownIcon
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface NavItem {
     icon: React.ReactNode;
@@ -66,8 +69,8 @@ interface Sale {
 export default function AdminDashboard() {
     const [activePeriod, setActivePeriod] = useState<"day" | "week" | "month">("day");
     const [salesPeriod, setSalesPeriod] = useState<"day" | "week" | "month">("day");
-    
-    // Mock data for the dashboard
+
+    // Mock data
     const navItems: NavItem[] = [
         { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: "/admin" },
         { icon: <ShoppingCart size={20} />, label: "Orders", href: "/admin/orders" },
@@ -103,370 +106,226 @@ export default function AdminDashboard() {
         { id: "3", product: "Macbook Air", productId: "ID 10-3786-23", customer: "Louis Franklin", email: "louis.franklin@gmail.com", location: "Germany", address: "200 Davis Estates Suite 621", total: "$118.00", shipping: "$18.00", status: "processing", image: "https://placehold.co/52x52" },
     ];
 
-    const getStatusColor = (status: string) => {
+    const getStatusStyles = (status: string) => {
         switch (status) {
-            case "shipped": return { bg: "rgba(124, 231, 172, 0.10)", text: "#7CE7AC" };
-            case "processing": return { bg: "rgba(244, 190, 94, 0.10)", text: "#F4BE5E" };
-            default: return { bg: "rgba(129, 129, 165, 0.10)", text: "#8181A5" };
+            case "shipped": return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+            case "processing": return "bg-amber-500/10 text-amber-400 border-amber-500/20";
+            default: return "bg-white/5 text-white/40 border-white/10";
         }
     };
 
     return (
-        <div className="min-h-screen" style={{ background: "#F5F5FA" }}>
-            {/* Left Sidebar */}
-            <aside className="fixed left-0 top-0 h-screen w-[84px] bg-white flex flex-col items-center py-4 z-50" style={{ borderRight: "1px #F0F0F3 solid" }}>
-                {/* Logo */}
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#5E81F4] to-[#5E81F4] flex items-center justify-center mb-8">
-                    <span className="text-white font-bold text-lg">A</span>
-                </div>
-
-                {/* Main Navigation */}
-                <nav className="flex-1 flex flex-col gap-2 w-full px-3">
-                    {navItems.map((item, index) => (
-                        <Link 
-                            key={item.label} 
-                            href={item.href}
-                            className={`w-full aspect-square rounded-lg flex items-center justify-center relative group ${index === 0 ? 'bg-[#5E81F4]/10' : 'hover:bg-gray-50'}`}
-                            style={index === 0 ? { borderRight: "2px solid #5E81F4" } : {}}
-                        >
-                            <span className={index === 0 ? "text-[#5E81F4]" : "text-[#8181A5]"}>
-                                {item.icon}
-                            </span>
-                            {item.badge && (
-                                <span className="absolute top-2 right-2 w-2 h-2 bg-[#8AF1B9] rounded-full border-2 border-white" />
-                            )}
-                        </Link>
-                    ))}
-                </nav>
-
-                {/* Bottom Navigation */}
-                <div className="flex flex-col gap-2 w-full px-3">
-                    {bottomNavItems.map((item) => (
-                        <Link 
-                            key={item.label} 
-                            href={item.href}
-                            className="w-full aspect-square rounded-lg flex items-center justify-center hover:bg-gray-50"
-                        >
-                            <span className="text-[#8181A5]">{item.icon}</span>
-                        </Link>
-                    ))}
-                </div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="ml-[84px]">
-                {/* Top Bar */}
-                <header className="h-[84px] bg-white flex items-center justify-between px-6" style={{ borderBottom: "1px #F0F0F3 solid" }}>
+        <div className="min-h-screen bg-black transition-colors duration-500">
+            {/* Main Content Area */}
+            <main className="flex-1 lg:pr-[365px]">
+                {/* Header */}
+                <header className="h-[84px] bg-black/40 backdrop-blur-xl flex items-center justify-between px-6 border-b border-white/5 sticky top-0 z-30">
                     <div className="flex items-center gap-4">
-                        <button className="w-9 h-9 rounded-lg bg-[#F0F0F3] flex items-center justify-center">
-                            <Menu size={18} className="text-[#8181A5]" />
+                        <button className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                            <Menu size={18} className="text-white/60" />
                         </button>
-                        <h1 className="text-xl font-bold" style={{ color: "#1C1D21" }}>Dashboard</h1>
+                        <h1 className="text-xl font-bold text-white [text-shadow:_0px_0px_16px_rgb(255_255_255_/_0.2)]">Dashboard</h1>
                     </div>
                     <div className="flex items-center gap-4">
-                        <button className="w-9 h-9 rounded-lg bg-[#F0F0F3] flex items-center justify-center">
-                            <Search size={18} className="text-[#8181A5]" />
+                        <button className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                            <Search size={18} className="text-white/60" />
                         </button>
-                        <button className="w-9 h-9 rounded-lg bg-[#F0F0F3] flex items-center justify-center relative">
-                            <Bell size={18} className="text-[#8181A5]" />
+                        <button className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center relative hover:bg-white/10 transition-colors">
+                            <Bell size={18} className="text-white/60" />
+                            <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full" />
                         </button>
                     </div>
                 </header>
 
-                {/* Dashboard Content */}
                 <div className="p-6">
-                    {/* Stats Cards Row */}
-                    <div className="grid grid-cols-3 gap-6 mb-6">
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                         {/* Sales Card */}
-                        <div className="bg-white rounded-xl p-5" style={{ border: "1px #F0F0F3 solid" }}>
-                            <div className="flex justify-between items-start mb-2">
+                        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300">
+                            <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <p className="text-sm font-bold" style={{ color: "#8181A5" }}>Sales</p>
-                                    <h3 className="text-xl font-bold mt-1" style={{ color: "#1C1D21" }}>1.345</h3>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Sales</p>
+                                    <h3 className="text-2xl font-bold mt-1 text-white">1,345</h3>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <TrendingUp size={16} className="text-[#7CE7AC]" />
-                                    <span className="text-sm font-bold" style={{ color: "#7CE7AC" }}>23%</span>
+                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                                    <TrendingUpIcon size={14} className="text-emerald-400" />
+                                    <span className="text-xs font-bold text-emerald-400">23%</span>
                                 </div>
                             </div>
-                            <div className="h-1 rounded-full bg-[#F0F0F3] mt-3">
-                                <div className="h-1 rounded-full bg-[#7CE7AC]" style={{ width: "83%" }} />
+                            <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                                <div className="h-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]" style={{ width: "83%" }} />
                             </div>
-                            <p className="text-xs mt-2" style={{ color: "#8181A5" }}>Week comparison</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Week comparison</p>
                         </div>
 
                         {/* Leads Card */}
-                        <div className="bg-white rounded-xl p-5" style={{ border: "1px #F0F0F3 solid" }}>
-                            <div className="flex justify-between items-start mb-2">
+                        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300">
+                            <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <p className="text-sm font-bold" style={{ color: "#8181A5" }}>Leads</p>
-                                    <h3 className="text-xl font-bold mt-1" style={{ color: "#1C1D21" }}>3.820</h3>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Leads</p>
+                                    <h3 className="text-2xl font-bold mt-1 text-white">3,820</h3>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <TrendingDown size={16} className="text-[#7CE7AC]" />
-                                    <span className="text-sm font-bold" style={{ color: "#7CE7AC" }}>8%</span>
+                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-500/10 border border-red-500/20">
+                                    <TrendingDownIcon size={14} className="text-red-400" />
+                                    <span className="text-xs font-bold text-red-400">8%</span>
                                 </div>
                             </div>
-                            <div className="h-1 rounded-full bg-[#F5F5FA] mt-3">
-                                <div className="h-1 rounded-full bg-[#5E81F4]" style={{ width: "79%" }} />
+                            <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                                <div className="h-full bg-primary shadow-[0_0_12px_rgba(94,129,244,0.4)]" style={{ width: "79%" }} />
                             </div>
-                            <p className="text-xs mt-2" style={{ color: "#8181A5" }}>Month comparison</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Month comparison</p>
                         </div>
 
                         {/* Income Card */}
-                        <div className="bg-white rounded-xl p-5" style={{ border: "1px #F0F0F3 solid" }}>
-                            <div className="flex justify-between items-start mb-2">
+                        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300">
+                            <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <p className="text-sm font-bold" style={{ color: "#8181A5" }}>Income</p>
-                                    <h3 className="text-xl font-bold mt-1" style={{ color: "#1C1D21" }}>$690.00</h3>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Income</p>
+                                    <h3 className="text-2xl font-bold mt-1 text-white">$690.00</h3>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <TrendingUp size={16} className="text-[#7CE7AC]" />
-                                    <span className="text-sm font-bold" style={{ color: "#7CE7AC" }}>12%</span>
+                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                                    <TrendingUpIcon size={14} className="text-emerald-400" />
+                                    <span className="text-xs font-bold text-emerald-400">12%</span>
                                 </div>
                             </div>
-                            <div className="h-1 rounded-full bg-[#F5F5FA] mt-3">
-                                <div className="h-1 rounded-full bg-[#FF808B]" style={{ width: "22%" }} />
+                            <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                                <div className="h-full bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.4)]" style={{ width: "22%" }} />
                             </div>
-                            <p className="text-xs mt-2" style={{ color: "#8181A5" }}>Week comparison</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Week comparison</p>
                         </div>
                     </div>
 
                     {/* Charts Row */}
-                    <div className="grid grid-cols-3 gap-6 mb-6">
-                        {/* Orders Chart */}
-                        <div className="col-span-2 bg-white rounded-xl p-5" style={{ border: "1px #F0F0F3 solid", minHeight: "380px" }}>
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+                        <div className="xl:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-bold" style={{ color: "#1C1D21" }}>Orders</h3>
+                                <h3 className="text-lg font-bold text-white">Orders</h3>
                                 <div className="flex items-center gap-2">
                                     {(["day", "week", "month"] as const).map((period) => (
                                         <button
                                             key={period}
                                             onClick={() => setActivePeriod(period)}
-                                            className={`px-3 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
-                                                activePeriod === period 
-                                                    ? "bg-white border border-[#ECECF2] text-[#1C1D21] shadow-sm" 
-                                                    : "text-[#8181A5] hover:bg-gray-50"
-                                            }`}
+                                            className={cn(
+                                                "px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all",
+                                                activePeriod === period
+                                                    ? "bg-white/10 text-white shadow-lg border border-white/10"
+                                                    : "text-white/40 hover:text-white"
+                                            )}
                                         >
                                             {period}
                                         </button>
                                     ))}
-                                    <button className="w-10 h-10 rounded-lg bg-[#8181A5]/10 flex items-center justify-center">
-                                        <Calendar size={18} className="text-[#8181A5]" />
-                                    </button>
                                 </div>
                             </div>
-                            
-                            {/* Chart visualization - simplified bar chart */}
-                            <div className="relative h-[228px] flex items-end justify-between gap-2 px-4">
-                                {[35, 65, 45, 80, 55, 90, 70, 85, 60, 75, 95, 80].map((height, index) => (
-                                    <div key={index} className="flex-1 flex flex-col items-center gap-2">
-                                        <div 
-                                            className="w-full rounded-t-lg transition-all hover:opacity-80" 
-                                            style={{ 
-                                                height: `${height * 2}px`,
-                                                background: index === 5 ? "#8AF1B9" : "linear-gradient(180deg, #5E81F4 0%, rgba(94, 129, 244, 0.3) 100%)"
-                                            }}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                            
-                            {/* X-axis labels */}
-                            <div className="flex justify-between mt-4 px-4">
-                                {["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map((month, index) => (
-                                    <span 
-                                        key={month} 
-                                        className="text-xs"
-                                        style={{ color: index === 5 ? "#1C1D21" : "#8181A5" }}
-                                    >
-                                        {month}
-                                    </span>
+                            {/* Simple chart placeholder */}
+                            <div className="h-[250px] flex items-end justify-between gap-1 px-2">
+                                {[30, 45, 35, 60, 40, 75, 50, 65, 55, 70, 85, 65].map((h, i) => (
+                                    <div key={i} className="flex-1 bg-gradient-to-t from-primary/20 to-primary rounded-t-sm" style={{ height: `${h}%` }} />
                                 ))}
                             </div>
                         </div>
 
-                        {/* Planned Income Chart */}
-                        <div className="bg-white rounded-xl p-5" style={{ border: "1px #F0F0F3 solid", minHeight: "380px" }}>
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-bold" style={{ color: "#1C1D21" }}>Planned Income</h3>
-                                <button className="w-10 h-10 rounded-lg bg-[#8181A5]/10 flex items-center justify-center">
-                                    <Calendar size={18} className="text-[#8181A5]" />
-                                </button>
-                            </div>
-
-                            {/* Pie chart visualization */}
-                            <div className="relative h-[200px] flex items-center justify-center">
-                                <div className="w-[180px] h-[180px] rounded-full border-[20px] border-[#9698D6] border-r-0" style={{ transform: "rotate(-45deg)" }} />
-                                <div className="absolute w-[140px] h-[140px] rounded-full border-[20px] border-[#8AF1B9]" style={{ transform: "rotate(45deg)" }} />
-                                <div className="absolute flex items-center justify-center">
-                                    <span className="text-sm font-bold" style={{ color: "#8181A5" }}>$48.200</span>
-                                </div>
-                            </div>
-
-                            {/* Legend */}
-                            <div className="flex justify-center gap-6 mt-4">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full bg-[#9698D6]" />
-                                    <span className="text-xs" style={{ color: "#8181A5" }}>Income</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full bg-[#8AF1B9]" />
-                                    <span className="text-xs" style={{ color: "#8181A5" }}>Profit</span>
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
+                            <h3 className="text-lg font-bold text-white mb-6">Planned Income</h3>
+                            <div className="flex items-center justify-center h-[200px] relative">
+                                <div className="w-32 h-32 rounded-full border-[12px] border-primary/20 border-t-primary shadow-[0_0_20px_rgba(94,129,244,0.2)]" />
+                                <div className="absolute flex flex-col items-center">
+                                    <span className="text-2xl font-bold text-white">$48,200</span>
+                                    <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold">Total Target</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Latest Sales Table */}
-                    <div className="bg-white rounded-xl overflow-hidden" style={{ border: "1px #F0F0F3 solid" }}>
-                        <div className="flex justify-between items-center p-5" style={{ borderBottom: "1px #F0F0F3 solid" }}>
-                            <h3 className="text-lg font-bold" style={{ color: "#1C1D21" }}>Latest sales</h3>
-                            <div className="flex items-center gap-2">
-                                {(["day", "week", "month"] as const).map((period) => (
-                                    <button
-                                        key={period}
-                                        onClick={() => setSalesPeriod(period)}
-                                        className={`px-3 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
-                                            salesPeriod === period 
-                                                ? "bg-white border border-[#ECECF2] text-[#1C1D21] shadow-sm" 
-                                                : "text-[#8181A5] hover:bg-gray-50"
-                                        }`}
-                                    >
-                                        {period}
-                                    </button>
-                                ))}
-                            </div>
+                    {/* Sales Table */}
+                    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md">
+                        <div className="p-6 border-b border-white/5 flex justify-between items-center">
+                            <h3 className="text-lg font-bold text-white">Latest Sales</h3>
                         </div>
-                        
-                        {/* Table Header */}
-                        <div className="flex items-center px-6 py-3 bg-[#F5F5FA]/40">
-                            <span className="w-[130px] text-xs font-bold" style={{ color: "#8181A5" }}>Product</span>
-                            <span className="w-[200px] text-xs font-bold" style={{ color: "#8181A5" }}>Customer</span>
-                            <span className="w-[180px] text-xs font-bold" style={{ color: "#8181A5" }}>Delivery</span>
-                            <span className="w-[120px] text-xs font-bold" style={{ color: "#8181A5" }}>Shipping</span>
-                            <span className="w-[100px] text-xs font-bold" style={{ color: "#8181A5" }}>Total</span>
-                            <span className="flex-1 text-xs font-bold" style={{ color: "#8181A5" }}>Status</span>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead className="bg-white/5 border-b border-white/5">
+                                    <tr>
+                                        <th className="px-6 py-4 text-[10px] uppercase font-bold text-white/40 tracking-wider">Product</th>
+                                        <th className="px-6 py-4 text-[10px] uppercase font-bold text-white/40 tracking-wider">Customer</th>
+                                        <th className="px-6 py-4 text-[10px] uppercase font-bold text-white/40 tracking-wider">Total</th>
+                                        <th className="px-6 py-4 text-[10px] uppercase font-bold text-white/40 tracking-wider">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                    {sales.map((sale) => (
+                                        <tr key={sale.id} className="hover:bg-white/5 transition-colors group">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <img src={sale.image} alt="" className="w-8 h-8 rounded-lg border border-white/10" />
+                                                    <div>
+                                                        <p className="text-sm font-bold text-white leading-none">{sale.product}</p>
+                                                        <p className="text-[10px] text-white/20 font-medium mt-1 uppercase tracking-tighter">{sale.productId}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <p className="text-sm font-bold text-white/80">{sale.customer}</p>
+                                                <p className="text-[10px] text-white/20">{sale.email}</p>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className="text-sm font-bold text-white">{sale.total}</span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={cn("px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border", getStatusStyles(sale.status))}>
+                                                    {sale.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-
-                        {/* Table Rows */}
-                        {sales.map((sale) => {
-                            const statusStyle = getStatusColor(sale.status);
-                            return (
-                                <div key={sale.id} className="flex items-center px-6 py-4 hover:bg-gray-50 border-b border-[#F0F0F3]/50 last:border-0">
-                                    <div className="w-[130px] flex items-center gap-3">
-                                        <img 
-                                            src={sale.image} 
-                                            alt={sale.product}
-                                            className="w-10 h-10 rounded-lg object-cover"
-                                        />
-                                        <div>
-                                            <p className="text-sm font-bold" style={{ color: "#1C1D21" }}>{sale.product}</p>
-                                            <p className="text-xs" style={{ color: "#1C1D21" }}>{sale.productId}</p>
-                                        </div>
-                                    </div>
-                                    <div className="w-[200px]">
-                                        <p className="text-sm font-bold" style={{ color: "#1C1D21" }}>{sale.customer}</p>
-                                        <p className="text-xs" style={{ color: "#1C1D21" }}>{sale.email}</p>
-                                    </div>
-                                    <div className="w-[180px]">
-                                        <p className="text-sm font-bold" style={{ color: "#1C1D21" }}>{sale.location}</p>
-                                        <p className="text-xs" style={{ color: "#1C1D21" }}>{sale.address}</p>
-                                    </div>
-                                    <div className="w-[120px]">
-                                        <p className="text-sm font-bold" style={{ color: "#1C1D21" }}>{sale.shipping}</p>
-                                    </div>
-                                    <div className="w-[100px]">
-                                        <p className="text-sm font-bold" style={{ color: "#1C1D21" }}>{sale.total}</p>
-                                    </div>
-                                    <div className="flex-1">
-                                        <span 
-                                            className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold capitalize"
-                                            style={{ background: statusStyle.bg, color: statusStyle.text }}
-                                        >
-                                            {sale.status}
-                                        </span>
-                                    </div>
-                                </div>
-                            );
-                        })}
                     </div>
                 </div>
             </main>
 
             {/* Right Sidebar */}
-            <aside className="fixed right-0 top-0 h-screen w-[365px] bg-white overflow-y-auto" style={{ borderLeft: "1px #F0F0F3 solid" }}>
-                <div className="p-6">
-                    {/* User Profile */}
-                    <div className="mb-8">
-                        <div className="flex items-center gap-4">
-                            <div className="w-20 h-20 rounded-xl overflow-hidden bg-gradient-to-br from-[#5E81F4] to-[#5E81F4] flex items-center justify-center">
-                                <Image 
-                                    src="/logo.jpg" 
-                                    alt="User" 
-                                    width={60}
-                                    height={60}
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div>
-                                <p className="text-sm font-bold" style={{ color: "#8181A5" }}>Welcome,</p>
-                                <h3 className="text-xl font-bold" style={{ color: "#1C1D21" }}>AryavratHQ</h3>
-                            </div>
+            <aside className="fixed right-0 top-0 h-screen w-[365px] bg-zinc-950/50 backdrop-blur-3xl border-l border-white/5 overflow-y-auto hidden lg:block p-8">
+                <div className="mb-12">
+                    <div className="flex items-center gap-4 mb-10">
+                        <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                            <Image src="/logo.jpg" alt="Logo" width={40} height={40} className="rounded-lg shadow-2xl" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">Welcome back,</p>
+                            <h2 className="text-xl font-bold text-white">Aryavrat HQ</h2>
                         </div>
                     </div>
 
-                    {/* Latest Updates */}
-                    <div className="mb-8">
-                        <h4 className="text-base font-bold mb-4" style={{ color: "#1C1D21" }}>Latest updates</h4>
-                        <div className="space-y-3">
-                            {activities.map((activity) => (
-                                <div 
-                                    key={activity.id} 
-                                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"
-                                    style={{ background: "rgba(245, 245, 250, 0.40)" }}
-                                >
-                                    <div 
-                                        className="w-9 h-9 rounded-lg flex items-center justify-center"
-                                        style={{ background: "rgba(94, 129, 244, 0.10)" }}
-                                    >
-                                        <span style={{ color: "#5E81F4" }}>{activity.icon}</span>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-bold truncate" style={{ color: "#1C1D21" }}>{activity.title}</p>
-                                        <p className="text-xs" style={{ color: "#8181A5" }}>{activity.time}</p>
-                                    </div>
-                                    {activity.amount && (
-                                        <span className="text-sm font-bold" style={{ color: "#1C1D21" }}>{activity.amount}</span>
-                                    )}
+                    <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-white/20 mb-6">Latest Updates</h3>
+                    <div className="space-y-4">
+                        {activities.map((a) => (
+                            <div key={a.id} className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all cursor-pointer">
+                                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                    {a.icon}
                                 </div>
-                            ))}
-                        </div>
+                                <div className="flex-1">
+                                    <p className="text-sm font-bold text-white/80">{a.title}</p>
+                                    <p className="text-[10px] text-white/20 font-bold uppercase">{a.time}</p>
+                                </div>
+                                {a.amount && <span className="text-xs font-bold text-white">{a.amount}</span>}
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Upcoming Events */}
-                    <div>
-                        <h4 className="text-base font-bold mb-4" style={{ color: "#1C1D21" }}>Upcoming events</h4>
-                        <div className="space-y-3">
-                            {upcomingEvents.map((event) => (
-                                <div 
-                                    key={event.id} 
-                                    className="p-4 rounded-xl relative overflow-hidden"
-                                    style={{ background: "rgba(245, 245, 250, 0.40)" }}
-                                >
-                                    <div className="flex items-start justify-between">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <div className="w-2 h-2 rounded-full" style={{ background: event.color }} />
-                                            <span className="text-xs font-bold" style={{ color: event.color }}>{event.time}</span>
-                                        </div>
-                                        <ChevronRight size={16} className="text-[#8181A5]" />
-                                    </div>
-                                    <p className="text-sm font-bold mb-1" style={{ color: "#1C1D21" }}>{event.title}</p>
-                                    <p className="text-xs line-clamp-1" style={{ color: "#8181A5" }}>{event.description}</p>
+                    <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-white/20 mt-12 mb-6">Upcoming Events</h3>
+                    <div className="space-y-4">
+                        {upcomingEvents.map((e) => (
+                            <div key={e.id} className="p-5 rounded-3xl bg-white/5 border border-white/5">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-2 h-2 rounded-full" style={{ background: e.color }} />
+                                    <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{e.time}</span>
                                 </div>
-                            ))}
-                        </div>
+                                <p className="text-sm font-bold text-white mb-1">{e.title}</p>
+                                <p className="text-xs text-white/20 font-medium leading-relaxed">{e.description}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </aside>
