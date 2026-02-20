@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import {
     Search,
     Bell,
@@ -20,12 +17,14 @@ import {
     Calendar,
     Clock,
     ChevronRight,
+    CheckCircle2,
     TrendingUp as TrendingUpIcon,
     TrendingDown as TrendingDownIcon
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { fetchAdminStats } from "./actions";
 
 interface NavItem {
     icon: React.ReactNode;
@@ -66,45 +65,27 @@ interface Sale {
     image: string;
 }
 
-export default function AdminDashboard() {
-    const [activePeriod, setActivePeriod] = useState<"day" | "week" | "month">("day");
-    const [salesPeriod, setSalesPeriod] = useState<"day" | "week" | "month">("day");
+export default async function AdminDashboard() {
+    const stats = await fetchAdminStats();
 
-    // Mock data
+    // Mock navigations stay for UI structure
     const navItems: NavItem[] = [
         { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: "/admin" },
         { icon: <ShoppingCart size={20} />, label: "Orders", href: "/admin/orders" },
         { icon: <Users size={20} />, label: "Customers", href: "/admin/customers" },
         { icon: <Package size={20} />, label: "Products", href: "/admin/products" },
         { icon: <MessageSquare size={20} />, label: "Messages", href: "/admin/messages", badge: 3 },
-        { icon: <BarChart3 size={20} />, label: "Analytics", href: "/admin/analytics" },
-        { icon: <FileText size={20} />, label: "Documents", href: "/admin/documents" },
-        { icon: <CreditCard size={20} />, label: "Payments", href: "/admin/payments" },
-        { icon: <Settings size={20} />, label: "Settings", href: "/admin/settings" },
-    ];
-
-    const bottomNavItems: NavItem[] = [
-        { icon: <HelpCircle size={20} />, label: "Help Center", href: "/admin/help" },
     ];
 
     const upcomingEvents: Event[] = [
-        { id: "1", title: "Meeting with a client", description: "Tell how to boost website traffic", time: "05:48AM", color: "#5E81F4" },
-        { id: "2", title: "New project discussion", description: "Business Cards Does Your Business", time: "10:28AM", color: "#F4BE5E" },
+        { id: "1", title: "Project Delivery", description: "Final review for Client X", time: "09:00AM", color: "#5E81F4" },
     ];
 
     const activities: Activity[] = [
-        { id: "1", title: "Item sale #340-00", amount: "+$890.00", time: "Just now", icon: <CreditCard size={18} />, iconBg: "#5E81F4", isPositive: true },
-        { id: "2", title: "New lead created", time: "30 min ago", icon: <Users size={18} />, iconBg: "#5E81F4" },
-        { id: "3", title: "Item sale #360-20", amount: "+$940.00", time: "45 min ago", icon: <CreditCard size={18} />, iconBg: "#5E81F4", isPositive: true },
-        { id: "4", title: "Items upload complete", time: "1 hr ago", icon: <Package size={18} />, iconBg: "#5E81F4" },
-        { id: "5", title: "Email notifications sent", time: "2 hrs ago", icon: <MessageSquare size={18} />, iconBg: "#5E81F4" },
+        { id: "1", title: "Supabase Live Sync", amount: "Active", time: "Just now", icon: <CreditCard size={18} />, iconBg: "#5E81F4", isPositive: true },
     ];
 
-    const sales: Sale[] = [
-        { id: "1", product: "Macbook Pro", productId: "ID 10-3290-08", customer: "Rodney Cannon", email: "rodney.cannon@gmail.com", location: "United Kingdom", address: "193 Cole Plains Suite 649, 891203", total: "$118.00", shipping: "$18.00", status: "shipped", image: "https://placehold.co/52x52" },
-        { id: "2", product: "Dell Laptop", productId: "ID 10-3456-18", customer: "Mike Franklin", email: "mike.franklin@gmail.com", location: "United States", address: "619 Jeffrey Freeway Apt. 273", total: "$208.00", shipping: "$28.00", status: "processing", image: "https://placehold.co/52x52" },
-        { id: "3", product: "Macbook Air", productId: "ID 10-3786-23", customer: "Louis Franklin", email: "louis.franklin@gmail.com", location: "Germany", address: "200 Davis Estates Suite 621", total: "$118.00", shipping: "$18.00", status: "processing", image: "https://placehold.co/52x52" },
-    ];
+    const sales: Sale[] = []; // Real sales would be fetched here too
 
     const getStatusStyles = (status: string) => {
         switch (status) {
@@ -145,53 +126,53 @@ export default function AdminDashboard() {
                             <div className="flex justify-between items-start mb-4">
                                 <div>
                                     <p className="text-xs font-bold uppercase tracking-wider text-white/40">Sales</p>
-                                    <h3 className="text-2xl font-bold mt-1 text-white">1,345</h3>
+                                    <h3 className="text-2xl font-bold mt-1 text-white">{stats.totalSales}</h3>
                                 </div>
                                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                                     <TrendingUpIcon size={14} className="text-emerald-400" />
-                                    <span className="text-xs font-bold text-emerald-400">23%</span>
+                                    <span className="text-xs font-bold text-emerald-400">Live</span>
                                 </div>
                             </div>
                             <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                                <div className="h-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]" style={{ width: "83%" }} />
+                                <div className="h-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.4)]" style={{ width: "100%" }} />
                             </div>
-                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Week comparison</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Real-time sync</p>
                         </div>
 
                         {/* Leads Card */}
                         <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300">
                             <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Leads</p>
-                                    <h3 className="text-2xl font-bold mt-1 text-white">3,820</h3>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Users</p>
+                                    <h3 className="text-2xl font-bold mt-1 text-white">{stats.usersCount}</h3>
                                 </div>
-                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-500/10 border border-red-500/20">
-                                    <TrendingDownIcon size={14} className="text-red-400" />
-                                    <span className="text-xs font-bold text-red-400">8%</span>
+                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/10 border border-primary/20">
+                                    <Users size={14} className="text-primary" />
+                                    <span className="text-xs font-bold text-primary">Active</span>
                                 </div>
                             </div>
                             <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                                <div className="h-full bg-primary shadow-[0_0_12px_rgba(94,129,244,0.4)]" style={{ width: "79%" }} />
+                                <div className="h-full bg-primary shadow-[0_0_12px_rgba(94,129,244,0.4)]" style={{ width: "100%" }} />
                             </div>
-                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Month comparison</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Community size</p>
                         </div>
 
                         {/* Income Card */}
                         <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300">
                             <div className="flex justify-between items-start mb-4">
                                 <div>
-                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Income</p>
-                                    <h3 className="text-2xl font-bold mt-1 text-white">$690.00</h3>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-white/40">Projects</p>
+                                    <h3 className="text-2xl font-bold mt-1 text-white">{stats.activeProjects}</h3>
                                 </div>
-                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                                    <TrendingUpIcon size={14} className="text-emerald-400" />
-                                    <span className="text-xs font-bold text-emerald-400">12%</span>
+                                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
+                                    <Clock size={14} className="text-amber-400" />
+                                    <span className="text-xs font-bold text-amber-400">{stats.pendingOrders} Pending</span>
                                 </div>
                             </div>
                             <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                                <div className="h-full bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.4)]" style={{ width: "22%" }} />
+                                <div className="h-full bg-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.4)]" style={{ width: "100%" }} />
                             </div>
-                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Week comparison</p>
+                            <p className="text-[10px] uppercase font-bold tracking-widest mt-4 text-white/20">Operational load</p>
                         </div>
                     </div>
 
@@ -199,23 +180,7 @@ export default function AdminDashboard() {
                     <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
                         <div className="xl:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-bold text-white">Orders</h3>
-                                <div className="flex items-center gap-2">
-                                    {(["day", "week", "month"] as const).map((period) => (
-                                        <button
-                                            key={period}
-                                            onClick={() => setActivePeriod(period)}
-                                            className={cn(
-                                                "px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all",
-                                                activePeriod === period
-                                                    ? "bg-white/10 text-white shadow-lg border border-white/10"
-                                                    : "text-white/40 hover:text-white"
-                                            )}
-                                        >
-                                            {period}
-                                        </button>
-                                    ))}
-                                </div>
+                                <h3 className="text-lg font-bold text-white">Orders Status</h3>
                             </div>
                             {/* Simple chart placeholder */}
                             <div className="h-[250px] flex items-end justify-between gap-1 px-2">

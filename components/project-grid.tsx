@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
-import { Search, LayoutGrid, ArrowUpRight, Filter } from "lucide-react";
+import { Search, LayoutGrid, ArrowUpRight, Filter, Share2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -71,15 +71,29 @@ function ProjectCard({ project }: { project: Project }) {
                                     <p className="text-[10px] font-semibold text-green-500 uppercase tracking-wider">{project.client_name}</p>
                                 )}
                             </div>
-                            {(project.deliverable_url || project.project_url) && (
-                                <Link
-                                    href={project.deliverable_url || project.project_url || "#"}
-                                    target="_blank"
-                                    className="h-12 w-12 rounded-2xl bg-primary text-black flex items-center justify-center hover:scale-110 transition-all shadow-glow-primary"
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const url = `${window.location.origin}/work/${project.title.toLowerCase().replace(/ /g, "-")}`;
+                                        navigator.clipboard.writeText(url);
+                                        // You could add a toast here
+                                        alert("Link copied to clipboard!");
+                                    }}
+                                    className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10 transition-all hover:scale-110"
                                 >
-                                    <ArrowUpRight className="w-5 h-5" />
-                                </Link>
-                            )}
+                                    <Share2 className="w-5 h-5" />
+                                </button>
+                                {(project.deliverable_url || project.project_url) && (
+                                    <Link
+                                        href={project.deliverable_url || project.project_url || "#"}
+                                        target="_blank"
+                                        className="h-12 w-12 rounded-2xl bg-primary text-black flex items-center justify-center hover:scale-110 transition-all shadow-glow-primary"
+                                    >
+                                        <ArrowUpRight className="w-5 h-5" />
+                                    </Link>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
